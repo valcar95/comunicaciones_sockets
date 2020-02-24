@@ -2,34 +2,122 @@
 <html>
 
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="client.js"></script>
+    <script src="game.js"></script>
     <script>
-        function initGame(){
-            let data={type:"init-game"};
+        function createGame() {
+            let data = { type: "init-game" };
             connection.send(JSON.stringify(data));
         }
 
-        function joinToGame(gameId){
-            let data={type:"join-game",gameId:gameId};
+        function joinToGame(gameId) {
+            let data = { type: "join-game", gameId: gameId };
             connection.send(JSON.stringify(data));
+        }
+
+        //captura la pulsacion de teclas
+        window.onload = function () {
+          
         }
     </script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <button onclick="initGame()">Iniciar juego</button>
-    <table>
-        <head>
-            <tr>
-                <th colspan="2">Juegos disponibles</th>
-            </tr>
-        </head>
-        <tbody id="games">
-            
-        </tbody>
-    </table>
+<body id="mibod">
+    <div id="inicio">
+        <button onclick="createGame()">Iniciar juego</button>
+        <table>
+
+            <head>
+                <tr>
+                    <th colspan="2">Juegos disponibles</th>
+                </tr>
+            </head>
+            <tbody id="games">
+
+            </tbody>
+        </table>
+    </div>
+    <div id="game">
+        <div id="cabesa">
+
+            <div id="j1">
+
+                <div style="border-bottom:1px solid rgba(0,204,0,1); width:130px; height:50px;">
+
+                    <div id="arma1">
+                        <div id="numarma1">100</div>
+                    </div>
+
+                    <div id="contenvidas1" style="width:130px">
+
+                        <div class="vidas1"></div>
+                        <div class="vidas1"></div>
+                        <div class="vidas1"></div>
+                        <div class="vidas1"></div>
+                        <div class="vidas1"></div>
+                        <div class="vidas1"></div>
+                        <div class="vidas1"></div>
+                        <div class="vidas1"></div>
+                        <div class="vidas1"></div>
+                        <div class="vidas1"></div>
+                    </div>
+
+                </div>
+
+                <div style="clear:left; height:38px">
+                    <div id="alojacpturas1"></div>
+                    <div id="contacapturas1">0</div>
+                </div>
+
+            </div>
+            <div id="mimens1"></div>
+
+
+
+            <div id="j2">
+
+                <div style="border-bottom:1px solid rgba(153,51,153,1); width:130px; height:50px;">
+
+                    <div id="arma2">
+                        <div id="numarma2">100</div>
+                    </div>
+
+                    <div id="contenvidas2" style="width:130px">
+
+                        <div class="vidas2"></div>
+                        <div class="vidas2"></div>
+                        <div class="vidas2"></div>
+                        <div class="vidas2"></div>
+                        <div class="vidas2"></div>
+                        <div class="vidas2"></div>
+                        <div class="vidas2"></div>
+                        <div class="vidas2"></div>
+                        <div class="vidas2"></div>
+                        <div class="vidas2"></div>
+                    </div>
+
+                </div>
+
+                <div style="clear:left; height:38px">
+                    <div id="alojacpturas2"></div>
+                    <div id="contacapturas2">0</div>
+                </div>
+
+            </div>
+            <div id="mimens2"></div>
+
+            <div id="misonido" style="display:none"></div>
+
+            <div id="reloj"></div>
+            <img src="warj/explocion.gif" id="explocionmina" />
+
+        </div>
+        <div id="recibe"></div>
+    </div>
+
 </body>
 
 </html>

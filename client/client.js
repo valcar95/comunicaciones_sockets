@@ -35,9 +35,27 @@ $(function () {
         if(json.type=="avalaible-games"){
             drawGames(json.data);
         }
+        if(json.type=="opponent-joined"){
+            initGame(json.data.gameId);
+        }
+        if(json.type=="receive-game-data"){
+          initGame2(json.data.gameId,json.data.gameData);
+        }
+        if(json.type=="keypress-user1"){
+          execKeyPress1(json.data.key);
+        }
+        if(json.type=="keypress-user2"){
+          execKeyPress2(json.data.key);
+        }
+        if(json.type=="keyup-user1"){
+          execKeyUp1(json.data.key);
+        }
+        if(json.type=="keyup-user2"){
+          execKeyUp2(json.data.key);
+        }
         console.log("mensaje recivido",json);
       } catch (e) {
-        console.log('Invalid JSON: ', message.data);
+        console.log('Invalid JSON: ', message.data,e);
         return;
       }
      

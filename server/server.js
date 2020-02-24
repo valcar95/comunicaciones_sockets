@@ -40,8 +40,8 @@ function joinGame(gameId,user){
     if(game && !game.user2){
         game.user2=user;
         notifyAllGames();
-        user.sendUTF( JSON.stringify({ type:'joined', data: true }));
-        game.user1.sendUTF( JSON.stringify({ type:'opponent-joined', data: true }));
+        user.sendUTF( JSON.stringify({ type:'joined', data: {gameId} }));
+        game.user1.sendUTF( JSON.stringify({ type:'opponent-joined', data: {gameId} }));
     }
     else{
         user.sendUTF( JSON.stringify({ type:'game-not-valid', data: true }));
@@ -74,6 +74,38 @@ function removeGame(game){
     }
 }
 
+function setGameData(gameId, gameData){
+    let game=games.find(x=>x.id==gameId);
+    if(game){
+        game.data=gameData;
+        game.user2.sendUTF( JSON.stringify({ type:'receive-game-data', data: {gameId,gameData} }));
+    }
+}
+
+function userKeyPress(data,user){
+    let game=games.find(x=>x.id==data.gameId);
+    if(game && (game.user1==user || game.user2==user)){
+        if(user==game.user1){
+            game.user2.sendUTF( JSON.stringify({ type:'keypress-user1', data: {key:data.keyValue} }));
+        }
+        else{
+            game.user1.sendUTF( JSON.stringify({ type:'keypress-user2', data: {key:data.keyValue} }));
+        }
+    }
+}
+
+function userKeyUp(data,user){
+    let game=games.find(x=>x.id==data.gameId);
+    if(game && (game.user1==user || game.user2==user)){
+        if(user==game.user1){
+            game.user2.sendUTF( JSON.stringify({ type:'keyup-user1', data: {key:data.keyValue} }));
+        }
+        else{
+            game.user1.sendUTF( JSON.stringify({ type:'keyup-user2', data: {key:data.keyValue} }));
+        }
+    }
+}
+
 var clients = [ ];
 var games=[];
 var gameId=1;
@@ -101,6 +133,15 @@ wsServer.on('request', function(request) {
         }
         if(json.type=="join-game"){
             joinGame(json.gameId,connection);
+        }
+        if(json.type=="set-game-data"){
+            setGameData(json.gameId,json.gameData);
+        }
+        if(json.type=="notify-key-press"){
+            userKeyPress(json.data,connection);
+        }
+        if(json.type=="notify-key-up"){
+            userKeyUp(json.data,connection);
         }
     } catch (error) {
         

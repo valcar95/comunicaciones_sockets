@@ -1,0 +1,240 @@
+.valas{
+	background-color:rgba(255,255,0,1);
+	box-shadow:0px 0px 5px #FFFFCC;
+	border-radius:20px;
+	position:absolute;	
+}
+
+
+#bola{
+	color:rgba(0,255,0,1);
+	background-image:url(warj/fondobol1.png);
+	background-size:100% 100%;
+	box-shadow:0px 0px 40px;
+	border-radius:30px;
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:20;
+}
+
+#bola2{
+	color:rgba(153,51,153,1);
+	background-image:url(warj/fondobol2.png);
+	background-size:100% 100%;
+	box-shadow:0px 0px 40px;
+	border-radius:30px;
+	position:absolute;
+	z-index:20;	
+}
+.otros,.capturados{
+	border-radius:30px;
+	position:absolute;
+}
+.capturados{
+	-webkit-transition:all 0.1s ease-in;	
+}
+*{margin:0px}
+#cabesa{
+	height:90px;
+	border-bottom:1px solid rgba(204,204,204,1);
+	min-width:500px;
+	color:rgba(204,204,204,1);
+	text-align:center;	
+}
+
+#j1{
+	float:left;
+	color:rgba(0,204,0,1);
+	border-right:1px solid	
+}
+
+#arma1{
+	height:50px;
+	width:50px;
+	border-bottom:1px solid rgba(0,204,0,1);
+	border-right:1px solid rgba(0,204,0,1);
+	float:left;
+	background-size:100% 100%;
+	background-image:url(warj/vala.png);
+	
+}
+
+#numarma1{
+	background-color:rgba(0,204,0,0.6);
+	color:rgba(0,0,0,1);
+	width:50px;
+	height:12px;
+	float:right;
+	font-size:12px;
+	overflow:hidden;	
+}
+
+#alojacpturas1{
+	width:60px;
+	height:40px;
+	border-right:1px solid;
+	float:left;
+}
+
+#contacapturas1{
+	margin-left:50px;
+	font-size:24px;
+	position:relative;
+	top:10px;
+}
+
+.vidas1{
+	width:15px;
+	height:15px;
+	background-image:url(warj/corazonverde.png);
+	background-size:100% 100%;
+	float:left;	
+}
+
+
+.bombas1,.bombas2{
+	height:30px;
+	width:30px;
+	position:absolute;
+	background-size:100% 100%;
+	z-index:10;
+}
+.bombas1{
+	background-image:url(warj/bomba1.png);	
+}
+.bombas2{
+	background-image:url(warj/bomba2.png);	
+}
+
+.contabomba1,.contabomba2{
+	position:relative;
+	font-size:10px;
+	top:10px;	
+}
+.contabomba1{
+	color:rgba(0,255,0,1);
+}
+.contabomba2{
+	color:rgba(255,51,255,1);
+}
+
+
+.minas1,.minas2{
+	height:20px;
+	width:20px;
+	border-radius:30px;
+	position:absolute;
+	background-size:100% 100%;	
+}
+.minas1{
+background-image:url(warj/mina1.png);	
+}
+
+.minas2{
+	background-image:url(warj/mina2.png);
+}
+
+
+#j2{
+	float:right;
+	color:rgba(153,51,153,1);
+	border-left:1px solid	
+}
+
+#arma2{
+	height:50px;
+	width:50px;
+	border-bottom:1px solid rgba(153,51,153,1);
+	border-left:1px solid rgba(153,51,153,1);
+	background-size:100% 100%;
+	float:right;
+	background-size:100% 100%;
+	background-image:url(warj/vala.png);
+	
+}
+
+#numarma2{
+	background-color:rgba(153,102,204,1);
+	color:rgba(0,0,0,1);
+	width:50px;
+	height:12px;
+	float:left;
+	font-size:12px;
+	overflow:hidden;	
+}
+
+#alojacpturas2{
+	width:60px;
+	height:40px;
+	border-left:1px solid;
+	float:right;
+}
+
+#contacapturas2{
+	margin-right:50px;
+	font-size:24px;
+	position:relative;
+	top:10px;
+}
+
+.vidas2{
+	width:15px;
+	height:15px;
+	background-image:url(warj/corazonrojo.png);
+	background-size:100% 100%;
+	float:right;	
+}
+
+
+#explocionmina{
+	width:30px;
+	height:30px;
+	position:absolute;
+	top:-100px;
+	left:-100px;	
+}
+
+#reloj{
+	color:rgba(204,204,204,1);
+	font-size:36px;
+	position:relative;
+	top:20px;
+}
+
+#mimens1{
+	float:left;
+	font-size:18px;
+	text-align:left;
+	color:rgba(0,204,0,1);
+	text-shadow:0px 1px 3px ;
+	width:200px;	
+}
+
+#mimens2{
+	float:right;
+	font-size:18px;
+	text-align:right;
+	color:rgba(153,51,153,1);
+	text-shadow:0px 1px 3px ;
+	width:200px;	
+}
+
+.llama1{
+	border-radius:30px;
+	background-image:url(warj/explovertical.png);
+	background-size:100% 100%;
+	position:absolute;
+}
+.llama2{
+	border-radius:30px;
+	background-image:url(warj/exploorizontal.png);
+	background-size:100% 100%;
+	position:absolute;
+}
+
+#game{
+    display: none;
+    border:5px solid rgba(204,204,204,1);
+	background-color:rgba(0,0,0,1);
+}
