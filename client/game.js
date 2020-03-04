@@ -1,171 +1,278 @@
 
 const bulletVelocity = 5;
-
-
-var arrdis = false
-var derdis = true
-var izqdis = false
-var abadis = false
-
-var arrdis2 = false
-var derdis2 = false
-var izqdis2 = true
-var abadis2 = false
-
 var gameId, userType;
+var conteo = 60
+const mincero = 100
+var poscapturaX = 23;
+var poscapturaY = 65;
+var poscapturaX2 = window.innerWidth - 43;
+var poscapturaY2 = 65;
+var armas = new Array("dbvfdjk", "warj/vala.png", "warj/muestramina1.png", "warj/muestrabomba1.png");
+
+//jugador 1
+var user1={
+     arrdis : false,
+     derdis : true,
+     izqdis : false,
+     abadis : false,
+     partir1 : 0,
+     cadena1 : "",
+     mitexto1 : "",
+     finttex1 : 0,
+     tamx : 0,
+     tamy : 0,
+     der : false,
+     izq : false,
+     arr : false,
+     aba : false,
+     posX : 0,
+     posY : 0,
+     tiempo : 50,
+     bola : "",
+     masenX : 0,
+     masenY : 0,
+     incre : 15,
+     numcapturas : 0,
+     vidas : 10,
+     aninmun : 0,
+     color1 : "rgba(0,255,0,1)",
+     arma : 1,
+     numbombas : 5,
+     numminas : 10,
+     numvalas : 100,
+     contaanim1 : 0,
+}
+
+
+//jugador 2
+var user2={
+     partir2 : 0,
+     cadena2 : "",
+     mitexto2 : "",
+     finttex2 : 0,
+     tamx2 : 0,
+     tamy2 : 0,
+     der2 : false,
+     izq2 : false,
+     arr2 : false,
+     aba2 : false,
+     posX2 : 0,
+     posY2 : 0,
+     tiempo2 : 50,
+     bola2 : "",
+     masenX2 : 0,
+     masenY2 : 0,
+     incre2 : 15,
+     numcapturas2 : 0,
+     arma2 : 1,
+     numbombas2 : 5,
+     numminas2 : 10,
+     numvalas2 : 100,
+     contaanim2 : 0,
+     vidas2 : 10,
+     aninmun2 : 0,
+     color2:"",
+     arrdis2 : false,
+     derdis2 : false,
+     izqdis2 : true,
+     abadis2 : false,
+}
+
 
 function gameKeyPress(elEvento) {
     var evento = window.event || elEvento;
     var val = evento.keyCode;
-    console.log("val",val);
-    console.log("usertype",userType);
-    console.log("game id",gameId);
-    execKeyPress1(val);
-    execKeyPress2(val);
+    if(userType==1){
+        execKeyPress1(val);
+    }
+    else{
+        execKeyPress2(val);
+    }
     let data = { type: "notify-key-press", data:{
         gameId: gameId, 
         keyValue:val
     } };
     connection.send(JSON.stringify(data));
+    notifyUpdateScreen();
 }
 
 function execKeyPress1(val){
     if (val == 50) {
-        if (tiempo < 0) {
-            incre += bulletVelocity
+        if (user1.tiempo < 0) {
+            user1.incre += bulletVelocity
         }
         else {
-            tiempo -= bulletVelocity
+            user1.tiempo -= bulletVelocity
         }
 
     }
 
     if (val == 49) {
-        if (incre > 10) {
-            incre -= bulletVelocity
+        if (user1.incre > 10) {
+            user1.incre -= bulletVelocity
         }
         else {
-            tiempo += bulletVelocity
+            user1.tiempo += bulletVelocity
         }
     }
 
-    if (val == 13) {
-        atacar()
+    if (val == 32) {
+        atacar();
+        notificarAtaque();
     }
 
     if (val == 119) {
-        aba = true
-        arrdis = true
-        abadis = false
+        user1.aba = true
+        user1.arrdis = true
+        user1.abadis = false
     }
     if (val == 97) {
-        izq = true
-        derdis = false
-        izqdis = true
+        user1.izq = true
+        user1.arrdis = false
+        user1.izqdis = true
     }
     if (val == 115) {
-        arr = true
-        arrdis = false
-        abadis = true
+        user1.arr = true
+        user1.arrdis = false
+        user1.abadis = true
     }
     if (val == 100) {
-        der = true
-        derdis = true
-        izqdis = false
+        user1.der = true
+        user1.arrdis = true
+        user1.izqdis = false
+    }
+}
+
+function notificarAtaque(){
+    let data = { type: "notify-attack", data:{
+        gameId: gameId
+    } };
+    connection.send(JSON.stringify(data));
+}
+
+function opponentAttack(){
+    if(userType==1){
+        atacar2();
+    }
+    else{
+        atacar();
     }
 }
 
 function execKeyPress2(val){
-    if (val == 43) {
-        if (tiempo2 < 0) {
-            incre2 += bulletVelocity
+    if (val == 50) {
+        if (user2.tiempo2 < 0) {
+            user2.incre2 += bulletVelocity
         }
         else {
-            tiempo2 -= bulletVelocity
+            user2.tiempo2 -= bulletVelocity
         }
 
     }
 
-    if (val == 180) {
-        if (incre2 > 10) {
-            incre2 -= bulletVelocity
+    if (val == 49) {
+        if (user2.incre2 > 10) {
+            user2.incre2 -= bulletVelocity
         }
         else {
-            tiempo2 += bulletVelocity
+            user2.tiempo2 += bulletVelocity
         }
     }
     
     if (val == 32) {
-        atacar2()
+        atacar2();
+        notificarAtaque();
     }
 
-    if (val == 111) {
-        aba2 = true
-        arrdis2 = true
-        abadis2 = false
+    if (val == 119) {
+        user2.aba2 = true
+        user2.arrdis2 = true
+        user2.abadis2 = false
     }
-    if (val == 107) {
-        izq2 = true
-        derdis2 = false
-        izqdis2 = true
+    if (val == 97) {
+        user2.izq2 = true
+        user2.derdis2 = false
+        user2.izqdis2 = true
     }
-    if (val == 108) {
-        arr2 = true
-        arrdis2 = false
-        abadis2 = true
+    if (val == 115) {
+        user2.arr2 = true
+        user2.arrdis2 = false
+        user2.abadis2 = true
     }
-    if (val == 241) {
-        der2 = true
-        derdis2 = true
-        izqdis2 = false
+    if (val == 100) {
+        user2.der2 = true
+        user2.derdis2 = true
+        user2.izqdis2 = false
     }
 }
 
 
 function gameKeyUp(elEvento) {
     var evento = window.event || elEvento;
-    var val = evento.keyCode
-    console.log("val",val);
-    console.log("usertype",userType);
-    execKeyUp1(val);
-    execKeyUp2(val);
+    var val = evento.keyCode;
+    if(userType==1){
+        execKeyUp1(val);
+    }
+    else{
+        execKeyUp2(val);
+    }
     let data = { type: "notify-key-up", data:{
         gameId: gameId, 
         keyValue:val
     } };
     connection.send(JSON.stringify(data));
+    notifyUpdateScreen();
+}
+
+function notifyUpdateScreen(){
+    let data = { type: "update-screen", data:{
+        gameId: gameId, 
+        html:document.getElementById("game").innerHTML,
+        userData:(userType==1)?user1:user2
+    } };
+    connection.send(JSON.stringify(data));
+}
+
+function updateHtml(html,userData){
+    //document.getElementById("game").innerHTML=html;
+    if(userType==1){
+        user2=userData;
+    }
+    else{
+        user1=userData;
+    }
 }
 
 function execKeyUp2(val){
 
-    if (val == 79) {
-        aba2 = false
-        arrdis2 = true
-        derdis2 = false
-        izqdis2 = false
-        abadis2 = false
+    if (val == 87) {
+        user2.aba2 = false
+        user2.arrdis2 = true
+        user2.derdis2 = false
+        user2.izqdis2 = false
+        user2.abadis2 = false
 
     }
-    if (val == 75) {
-        izq2 = false
-        arrdis2 = false
-        derdis2 = false
-        izqdis2 = true
-        abadis2 = false
+    if (val == 65) {
+        user2.izq2 = false
+        user2.arrdis2 = false
+        user2.derdis2 = false
+        user2.izqdis2 = true
+        user2.abadis2 = false
     }
-    if (val == 76) {
-        arr2 = false
-        arrdis2 = false
-        derdis2 = false
-        izqdis2 = false
-        abadis2 = true
+    if (val == 83) {
+        user2.arr2 = false
+        user2.arrdis2 = false
+        user2.derdis2 = false
+        user2.izqdis2 = false
+        user2.abadis2 = true
     }
-    if (val == 192) {
-        der2 = false
-        arrdis2 = false
-        derdis2 = true
-        izqdis2 = false
-        abadis2 = false
+    if (val == 68) {
+        user2.der2 = false
+        user2.arrdis2 = false
+        user2.derdis2 = true
+        user2.izqdis2 = false
+        user2.abadis2 = false
     }
 
     if (val == 16) {
@@ -174,37 +281,37 @@ function execKeyUp2(val){
 }
 
 function execKeyUp1(val){
-    if (val == 17) {
+    if (val == 16) {
         cambiararma()
     }
     if (val == 87) {
-        aba = false
-        arrdis = true
-        derdis = false
-        izqdis = false
-        abadis = false
+        user1.aba = false
+        user1.arrdis = true
+        user1.arrdis = false
+        user1.izqdis = false
+        user1.abadis = false
     }
     if (val == 65) {
-        izq = false
-        arrdis = false
-        derdis = false
-        izqdis = true
-        abadis = false
+        user1.izq = false
+        user1.arrdis = false
+        user1.arrdis = false
+        user1.izqdis = true
+        user1.abadis = false
     }
     if (val == 83) {
-        arr = false
-        arrdis = false
-        derdis = false
-        izqdis = false
-        abadis = true
+        user1.arr = false
+        user1.arrdis = false
+        user1.arrdis = false
+        user1.izqdis = false
+        user1.abadis = true
 
     }
     if (val == 68) {
-        der = false
-        arrdis = false
-        derdis = true
-        izqdis = false
-        abadis = false
+        user1.der = false
+        user1.arrdis = false
+        user1.arrdis = true
+        user1.izqdis = false
+        user1.abadis = false
     }
 }
 
@@ -232,14 +339,14 @@ function createUsers(){
     bol2.style.width = "30px"
     bol2.style.height = "30px"
 
-    tamx = window.innerWidth - 50
-    tamy = window.innerHeight - mincero - 50
+    user1.tamx = window.innerWidth - 50
+    user1.tamy = window.innerHeight - mincero - 50
 
-    posX2 = tamx + 20
-    posY2 = tamy + mincero + 20
+    user2.posX2 = user1.tamx + 20
+    user2.posY2 = user1.tamy + mincero + 20
 
-    bol2.style.left = tamx + 20 + "px"
-    bol2.style.top = tamy + mincero + 20 + "px"
+    bol2.style.left = user1.tamx + 20 + "px"
+    bol2.style.top = user1.tamy + mincero + 20 + "px"
 
     res.appendChild(bol2)
     res.appendChild(bol)
@@ -247,11 +354,11 @@ function createUsers(){
 
 function createBalls(){
     let balls=[];
-    tamx = window.innerWidth - 50
-    tamy = window.innerHeight - mincero - 50
+    user1.tamx = window.innerWidth - 50
+    user1.tamy = window.innerHeight - mincero - 50
     for (i = 0; i <= 20; i++) {
-        var px = Math.floor(Math.random() * (1 + tamx + 1)) + 20;
-        var py = Math.floor(Math.random() * (1 + tamy + 1)) + mincero + 20;
+        var px = Math.floor(Math.random() * (1 + user1.tamx + 1)) + 20;
+        var py = Math.floor(Math.random() * (1 + user1.tamy + 1)) + mincero + 20;
 
         var c1 = Math.floor(Math.random() * (1 + 225 + 1)) + 1;
         var c2 = Math.floor(Math.random() * (1 + 225 + 1)) + 1;
@@ -286,13 +393,13 @@ function drawBalls(balls){
 //ganadores
 function gansdor2() {
     alert('gano el 2')
-    self.location = 'warj.html'
+    self.location = 'index.html'
 
 }
 
 function gansdor1() {
     alert('gano el 1')
-    self.location = 'warj.html'
+    self.location = 'index.html'
 }
 
 //sonido
@@ -316,9 +423,9 @@ function imagen2(dir) {
 
 //numero de volas
 function contarvolas() {
-    var total = numcapturas + numcapturas2
+    var total = user1.numcapturas + user2.numcapturas2
     if (total == 21) {
-        if (numcapturas > numcapturas2) {
+        if (user1.numcapturas > user2.numcapturas2) {
             mensaje1("Protegete si deseas ganar")
             mensaje2("Perderas si no lo matas")
         }
@@ -472,10 +579,6 @@ function estayarBomba(padre, jugador) {
 
 
 }
-
-
-
-
 
 function crecerllama() {
 
@@ -685,68 +788,58 @@ function activarbomba(bom) {
     bom.activa = true
 }
 
-
-var partir1 = 0
-var cadena1 = "";
-var mitexto1 = ""
-var finttex1 = 0
 function reparte1() {
-    var part = mitexto1.split('')
+    var part = user1.mitexto1.split('')
     var mes = document.getElementById("mimens1")
-    if (partir1 < finttex1) {
-        cadena1 += part[partir1]
+    if (user1.partir1 < user1.finttex1) {
+        user1.cadena1 += part[user1.partir1]
         setTimeout("reparte1()", 100)
     }
-    mes.innerHTML = cadena1
-    partir1 += 1
+    mes.innerHTML = user1.cadena1
+    user1.partir1 += 1
 }
 function mensaje1(tex) {
     document.getElementById("mimens1").innerHTML = ""
-    cadena1 = ""
-    mitexto1 = ""
+    user1.cadena1 = ""
+    user1.mitexto1 = ""
     var part = tex.split('')
     var f1 = part.length
-    partir1 = 0
-    mitexto1 = tex
-    finttex1 = f1
+    user1.partir1 = 0
+    user1.mitexto1 = tex
+    user1.finttex1 = f1
     reparte1()
 }
 
-
-var partir2 = 0
-var cadena2 = "";
-var mitexto2 = ""
-var finttex2 = 0
 function reparte2() {
-    var part = mitexto2.split('')
+    var part = user2.mitexto2.split('')
     var mes = document.getElementById("mimens2")
-    if (partir2 < finttex2) {
-        cadena2 += part[partir2]
+    if (user2.partir2 < user2.finttex2) {
+        user2.cadena2 += part[user2.partir2]
         setTimeout("reparte2()", 100)
     }
-    mes.innerHTML = cadena2
-    partir2 += 1
+    mes.innerHTML = user2.cadena2
+    user2.partir2 += 1
 }
+
 function mensaje2(tex) {
     document.getElementById("mimens2").innerHTML = ""
-    mitexto2 = ""
-    cadena2 = ""
+    user2.mitexto2 = ""
+    user2.cadena2 = ""
     var part = tex.split('')
     var f2 = part.length
-    partir2 = 0
-    mitexto2 = tex
-    finttex2 = f2
+    user2.partir2 = 0
+    user2.mitexto2 = tex
+    user2.finttex2 = f2
     reparte2()
 }
 
-var conteo = 60
 function Reloj() {
     var cam = document.getElementById("reloj")
     if (conteo > 0) {
         setTimeout("Reloj()", 1000)
     }
     else {
-        if (numcapturas > numcapturas2) {
+        if (user1.numcapturas > user2.numcapturas2) {
             gansdor1()
         }
         else {
@@ -757,31 +850,6 @@ function Reloj() {
     cam.innerHTML = conteo
 }
 
-
-//jugador 1
-var tamx = 0
-var tamy = 0
-var mincero = 100
-
-
-
-var der = false
-var izq = false
-var arr = false
-var aba = false
-
-
-
-
-
-
-var posX = 0
-var posY = 0
-var tiempo = 50
-var bola = ""
-var masenX = 0
-var masenY = 0
-var incre = 15
 function mover() {
 
     var cam = document.getElementById("bola")
@@ -789,75 +857,72 @@ function mover() {
     var bx = cam.style.width
     bx = bx.split('px')
     bx = bx[0]
-    masenX = bx
+    user1.masenX = bx
 
     var by = cam.style.height
     by = by.split('px')
     by = by[0]
-    masenY = by
+    user1.masenY = by
 
 
-    bola = cam
+    user1.bola = cam
 
-    if (der == true) {
+    if (user1.der == true) {
 
-        posX += incre
+        user1.posX += user1.incre
     }
-    if (izq == true) {
-        posX -= incre
-    }
-
-    if (arr == true) {
-        posY += incre
-    }
-    if (aba == true) {
-        posY -= incre
+    if (user1.izq == true) {
+        user1.posX -= user1.incre
     }
 
-    if (posY < mincero) {
-        posY = mincero
+    if (user1.arr == true) {
+        user1.posY += user1.incre
+    }
+    if (user1.aba == true) {
+        user1.posY -= user1.incre
     }
 
-    tamx = window.innerWidth
-    tamy = window.innerHeight
-
-    if (posY > tamy - masenY) {
-        posY = tamy - masenY
+    if (user1.posY < mincero) {
+        user1.posY = mincero
     }
 
-    if (posX > tamx - masenX) {
-        posX = tamx - masenX
+    user1.tamx = window.innerWidth
+    user1.tamy = window.innerHeight
+
+    if (user1.posY > user1.tamy - user1.masenY) {
+        user1.posY = user1.tamy - user1.masenY
     }
 
-    if (posX < 0) {
-        posX = 1
+    if (user1.posX > user1.tamx - user1.masenX) {
+        user1.posX = user1.tamx - user1.masenX
     }
 
-    cam.style.top = posY + "px"
-    cam.style.left = posX + "px"
+    if (user1.posX < 0) {
+        user1.posX = 1
+    }
 
-    masenX = parseInt(masenX)
-    masenY = parseInt(masenY)
+    cam.style.top = user1.posY + "px"
+    cam.style.left = user1.posX + "px"
+
+    user1.masenX = parseInt(user1.masenX)
+    user1.masenY = parseInt(user1.masenY)
 
 
-    masenX += posX
-    masenY += posY
+    user1.masenX += user1.posX
+    user1.masenY += user1.posY
 
-    tocarMiBomba(posX - 1, posY - 1, masenX + 1, masenY - 1)
-    pisarmina(posX, posY, masenX, masenY)
-    chocarConBomba(posX, posY, masenX, masenY)
-    intersepta(posX, posY, masenX, masenY)
+    tocarMiBomba(user1.posX - 1, user1.posY - 1, user1.masenX + 1, user1.masenY - 1)
+    pisarmina(user1.posX, user1.posY, user1.masenX, user1.masenY)
+    chocarConBomba(user1.posX, user1.posY, user1.masenX, user1.masenY)
+    intersepta(user1.posX, user1.posY, user1.masenX, user1.masenY)
 
-    setTimeout("mover()", tiempo)
+    setTimeout("mover()", user1.tiempo)
 
 
 
 
 }
 
-var poscapturaX = 23
-var poscapturaY = 65
-var numcapturas = 0
 function intersepta(mix, miy, meX, meY) {
     var tod = document.getElementsByClassName("otros")
     fin = tod.length
@@ -904,8 +969,8 @@ function intersepta(mix, miy, meX, meY) {
         //intercepcion por encima
         if (meY >= fy && meY <= fty && ((fx <= meX && fx >= mix) || (ftx <= meX && ftx >= mix))) {
             yes = true
-            tamy = window.innerHeight
-            if (fy + 10 < tamy - 40) {
+            user1.tamy = window.innerHeight
+            if (fy + 10 < user1.tamy - 40) {
                 tod[i].style.top = fy + 10 + "px"
             }
         }
@@ -913,8 +978,8 @@ function intersepta(mix, miy, meX, meY) {
         //intercepcion por la izquierda
         if (meX >= fx && meX <= ftx && ((fy <= meY && fy >= miy) || (fty <= meY && fty >= miy))) {
             yes = true
-            tamx = window.innerWidth
-            if (fx + 10 < tamx - 40) {
+            user1.tamx = window.innerWidth
+            if (fx + 10 < user1.tamx - 40) {
                 tod[i].style.left = fx + 10 + "px"
             }
         }
@@ -929,13 +994,13 @@ function intersepta(mix, miy, meX, meY) {
 
         if (yes == true) {
 
-            numcapturas += 1
+            user1.numcapturas += 1
             tod[i].style.left = poscapturaX + "px"
             tod[i].style.top = poscapturaY + "px"
-            tod[i].style.zIndex = numcapturas
+            tod[i].style.zIndex = user1.numcapturas
             tod[i].style.webkitTransition = "all 0.1s ease-in"
             var camcon = document.getElementById("contacapturas1")
-            camcon.innerHTML = numcapturas
+            camcon.innerHTML = user1.numcapturas
             contarvolas()
 
             /* var c1=Math.floor(Math.random() * (1 + 225 + 1)) + 1;
@@ -958,7 +1023,6 @@ function intersepta(mix, miy, meX, meY) {
 
 }
 
-var vidas = 10
 function erir(mix, miy, meX, meY) {
     var tod = document.getElementsByClassName("valas")
     fin = tod.length
@@ -1040,7 +1104,7 @@ function erir(mix, miy, meX, meY) {
             }
         }
 
-        if (yes == true && bola.inmune == false) {
+        if (yes == true && user1.bola.inmune == false) {
             medieron()
             tod[i].style.left = "-30px"
             tod[i].style.top = "-30px"
@@ -1056,7 +1120,6 @@ function erir(mix, miy, meX, meY) {
     }
 
 }
-
 
 function pisarmina(mix, miy, meX, meY) {
     var tod = document.getElementsByClassName("minas2")
@@ -1114,7 +1177,7 @@ function pisarmina(mix, miy, meX, meY) {
             yes2 = true
         }
 
-        if (yes2 == true && bola.inmune == false) {
+        if (yes2 == true && user1.bola.inmune == false) {
             tod[i].style.left = "-40px"
             tod[i].style.top = "-40px"
             tod[i].activa = false
@@ -1215,12 +1278,12 @@ function tocarMiBomba(mix, miy, meX, meY) {
         }
 
         if (yes == true) {
-            tod[i].der = der
-            tod[i].izq = izq
-            tod[i].aba = arr
-            tod[i].arr = aba
+            tod[i].der = user1.der
+            tod[i].izq = user1.izq
+            tod[i].aba = user1.arr
+            tod[i].arr = user1.aba
             tod[i].activa = false
-            setTimeout("activarbomba(" + tod[i].id + ")", tiempo + 1000)
+            setTimeout("activarbomba(" + tod[i].id + ")", user1.tiempo + 1000)
             /* var c1=Math.floor(Math.random() * (1 + 225 + 1)) + 1;
              var c2=Math.floor(Math.random() * (1 + 225 + 1)) + 1;
              var c3=Math.floor(Math.random() * (1 + 225 + 1)) + 1;
@@ -1297,7 +1360,7 @@ function chocarConBomba(mix, miy, meX, meY) {
             yes2 = true
         }
 
-        if (yes2 == true && bola.inmune == false && tod[i].creador == "jugador2") {
+        if (yes2 == true && user1.bola.inmune == false && tod[i].creador == "jugador2") {
             sonido("warj/quemar2.mp3")
             medieron()
             explocion(mix, miy)
@@ -1376,7 +1439,7 @@ function chocarConBomba(mix, miy, meX, meY) {
             yes2 = true
         }
 
-        if (yes2 == true && bola.inmune == false && tod[i].creador == "jugador2") {
+        if (yes2 == true && user1.bola.inmune == false && tod[i].creador == "jugador2") {
             sonido("warj/quemar2.mp3")
             medieron()
             explocion(mix, miy)
@@ -1402,15 +1465,15 @@ function chocarConBomba(mix, miy, meX, meY) {
 }
 
 function medieron() {
-    bola.inmune = true
-    aninmun = 20
-    color1 = bola.style.backgroundColor
+    user1.bola.inmune = true
+    user1.aninmun = 20
+    user1.color1 = user1.bola.style.backgroundColor
     inmunidad1()
-    vidas -= 1
-    if (vidas > 0) {
+    user1.vidas -= 1
+    if (user1.vidas > 0) {
         var convid = document.getElementById("contenvidas1")
         convid.innerHTML = ""
-        for (j = 1; j <= vidas; j++) {
+        for (j = 1; j <= user1.vidas; j++) {
             convid.innerHTML += "<div class='vidas1'></div>"
         }
     }
@@ -1419,112 +1482,103 @@ function medieron() {
     }
 }
 
-
-
-var aninmun = 0
-var color1 = "rgba(0,255,0,1)"
 function inmunidad1() {
-    if (aninmun % 2 == 0) {
-        bola.style.backgroundColor = "black"
-        bola.style.color = "black"
+    if (user1.aninmun % 2 == 0) {
+        user1.bola.style.backgroundColor = "black"
+        user1.bola.style.color = "black"
     }
     else {
-        bola.style.backgroundColor = color1
-        bola.style.color = color1
+        user1.bola.style.backgroundColor = user1.color1
+        user1.bola.style.color = user1.color1
     }
 
-    aninmun -= 1
-    if (aninmun > 0) {
+    user1.aninmun -= 1
+    if (user1.aninmun > 0) {
         setTimeout("inmunidad1()", 100)
     }
     else {
-        bola.inmune = false
-        bola.style.backgroundColor = color1
-        bola.style.color = color1
+        user1.bola.inmune = false
+        user1.bola.style.backgroundColor = user1.color1
+        user1.bola.style.color = user1.color1
     }
 }
-
-var armas1 = new Array("dbvfdjk", "warj/vala.png", "warj/muestramina1.png", "warj/muestrabomba1.png")
 
 function cambiararma() {
-    arma += 1
-    if (arma > 3) {
-        arma = 1
+    user1.arma += 1
+    if (user1.arma > 3) {
+        user1.arma = 1
     }
     sonido("warj/cambiodearma.mp3")
-    imagen1(armas1[arma])
+    imagen1(armas[user1.arma])
 
     var cam = document.getElementById("numarma1")
-    if (arma == 1) {
-        cam.innerHTML = numvalas
+    if (user1.arma == 1) {
+        cam.innerHTML = user1.numvalas
     }
-    if (arma == 2) {
-        cam.innerHTML = numminas
+    if (user1.arma == 2) {
+        cam.innerHTML = user1.numminas
     }
-    if (arma == 3) {
-        cam.innerHTML = numbombas
+    if (user1.arma == 3) {
+        cam.innerHTML = user1.numbombas
     }
 }
 
-var arma = 1
 function atacar() {
 
-    if (arma == 1) {
+    if (user1.arma == 1) {
         disparar()
     }
 
-    if (arma == 2) {
+    if (user1.arma == 2) {
         sembrarMina()
     }
 
-    if (arma == 3) {
+    if (user1.arma == 3) {
         dejarbomba()
     }
 }
 
 //arma tipo bomba
-var numbombas = 5
-
 function dejarbomba() {
     var cam = document.getElementById("numarma1")
     var res = document.getElementById("recibe")
 
     var posvalida = true
 
-    if ((posX > window.innerWidth - 130) || (posY > window.innerHeight - 130) || (posY < 200)) {
+    if ((user1.posX > window.innerWidth - 130) || (user1.posY > window.innerHeight - 130) || (user1.posY < 200)) {
         posvalida = false
     }
 
 
-    if (numbombas > 0 && posvalida == true) {
-        numbombas -= 1
-        cam.innerHTML = numbombas
+    if (user1.numbombas > 0 && posvalida == true) {
+        user1.numbombas -= 1
+        cam.innerHTML = user1.numbombas
 
         var bomba = document.createElement("div")
         bomba.className = "bombas1"
-        bomba.style.left = posX + "px"
-        bomba.style.top = posY + "px"
+        bomba.style.left = user1.posX + "px"
+        bomba.style.top = user1.posY + "px"
         bomba.style.height = "30px"
         bomba.style.width = "30px"
         bomba.activa = true
         bomba.anima = 0
-        bomba.numero = numbombas
-        bomba.id = "mibomba1" + numbombas
-        bomba.pX = posX
-        bomba.pY = posY
+        bomba.numero = user1.numbombas
+        bomba.id = "mibomba1" + user1.numbombas
+        bomba.pX = user1.posX
+        bomba.pY = user1.posY
         bomba.estayada = false
         bomba.izq = false
         bomba.der = false
         bomba.aba = false
         bomba.arr = false
         bomba.activa = false
-        setTimeout("activarbomba(" + bomba.id + ")", tiempo + 1000)
+        setTimeout("activarbomba(" + bomba.id + ")", user1.tiempo + 1000)
 
         var conta = document.createElement("div")
         conta.className = "contabomba1"
         conta.innerHTML = "10"
-        conta.id = "contabom" + numbombas
-        conta.padre = "mibomba1" + numbombas
+        conta.id = "contabom" + user1.numbombas
+        conta.padre = "mibomba1" + user1.numbombas
         conta.valor = 10
         conta.activa = true
 
@@ -1535,47 +1589,45 @@ function dejarbomba() {
 
     }
     else {
-        if (numbombas > 0) {
+        if (user1.numbombas > 0) {
             mensaje1("No puedes dejar bombas cerca de los bordos")
-            contaanim1 = 10
+            user1.contaanim1 = 10
             alertavalas()
         }
         else {
-            contaanim1 = 10
+            user1.contaanim1 = 10
             alertavalas()
         }
 
     }
 }
 
-
 //arma tipo mina
-var numminas = 10;
 function sembrarMina() {
     var cam = document.getElementById("numarma1")
     var res = document.getElementById("recibe")
 
     var posvalida = true
 
-    if ((posX > window.innerWidth - 30) || (posY > window.innerHeight - 30)) {
+    if ((user1.posX > window.innerWidth - 30) || (user1.posY > window.innerHeight - 30)) {
         posvalida = false
     }
 
 
-    if (numminas > 0 && posvalida == true) {
-        numminas -= 1
-        cam.innerHTML = numminas
+    if (user1.numminas > 0 && posvalida == true) {
+        user1.numminas -= 1
+        cam.innerHTML = user1.numminas
 
         var mina = document.createElement("div")
         mina.className = "minas1"
 
-        var masX = bola.style.width
+        var masX = user1.bola.style.width
         masX = masX.split('px')
         masX = masX[0]
         masX = parseInt(masX)
         masX = masX / 2
 
-        var masY = bola.style.height
+        var masY = user1.bola.style.height
         masY = masY.split('px')
         masY = masY[0]
         masY = parseInt(masY)
@@ -1584,8 +1636,8 @@ function sembrarMina() {
         masX = masX - 10
         masY = masY - 10
 
-        mina.style.left = posX + masX + "px"
-        mina.style.top = posY + masY + "px"
+        mina.style.left = user1.posX + masX + "px"
+        mina.style.top = user1.posY + masY + "px"
         mina.style.height = "20px"
         mina.style.width = "20px"
         mina.activa = true
@@ -1596,17 +1648,12 @@ function sembrarMina() {
 
     }
     else {
-        contaanim1 = 10
+        user1.contaanim1 = 10
         alertavalas()
     }
 }
 
-
-
-
-
 //arma tipo vals
-var numvalas = 100
 function disparar() {
     var res = document.getElementById("recibe")
     var vala = document.createElement("div")
@@ -1615,13 +1662,13 @@ function disparar() {
     var h = 5;
     var w = 5;
 
-    var masX = bola.style.width
+    var masX = user1.bola.style.width
     masX = masX.split('px')
     masX = masX[0]
     masX = parseInt(masX)
     masX = masX / 2
 
-    var masY = bola.style.height
+    var masY = user1.bola.style.height
     masY = masY.split('px')
     masY = masY[0]
     masY = parseInt(masY)
@@ -1629,21 +1676,21 @@ function disparar() {
 
     var sumX = 0
     var sumY = 0
-    if (abadis == true) {
+    if (user1.abadis == true) {
         vala.ab = true
         vala.ar = false
 
         sumX = parseInt(masX)
         sumY = parseInt(masY * 2)
     }
-    if (arrdis == true) {
+    if (user1.arrdis == true) {
         vala.ab = false
         vala.ar = true
 
         sumX = parseInt(masX)
     }
 
-    if (derdis == true) {
+    if (user1.arrdis == true) {
         vala.de = true
         vala.iz = false
 
@@ -1651,15 +1698,15 @@ function disparar() {
         sumY = parseInt(masY)
     }
 
-    if (izqdis == true) {
+    if (user1.izqdis == true) {
         vala.de = false
         vala.iz = true
 
         sumY = parseInt(masY)
     }
 
-    var posvX = posX + sumX
-    var posvY = posY + sumY
+    var posvX = user1.posX + sumX
+    var posvY = user1.posY + sumY
 
     vala.x = posvX
     vala.y = posvY
@@ -1673,42 +1720,37 @@ function disparar() {
 
 
 
-    numvalas -= 1
-    if (numvalas >= 0) {
+    user1.numvalas -= 1
+    if (user1.numvalas >= 0) {
         sonido("warj/disparo.mp3")
         res.appendChild(vala)
         var numv = document.getElementById("numarma1")
-        numv.innerHTML = numvalas
+        numv.innerHTML = user1.numvalas
     }
     else {
-        contaanim1 = 10
+        user1.contaanim1 = 10
         alertavalas()
     }
 
 
 }
 
-var contaanim1 = 0
 function alertavalas() {
     var cam = document.getElementById("numarma1")
-    if (contaanim1 % 2 == 0) {
+    if (user1.contaanim1 % 2 == 0) {
         cam.style.backgroundColor = "red"
     }
     else {
         cam.style.backgroundColor = "rgba(0,204,0,0.6)"
     }
-    contaanim1 -= 1
-    if (contaanim1 > 0) {
+    user1.contaanim1 -= 1
+    if (user1.contaanim1 > 0) {
         setTimeout("alertavalas()", 100)
     }
     else {
         cam.style.backgroundColor = "rgba(0,204,0,0.6)"
     }
 }
-
-
-
-
 
 function movervalas() {
     var tod = document.getElementsByClassName("valas")
@@ -1719,9 +1761,9 @@ function movervalas() {
         var miy = tod[i].y
         if (tod[i].ab == true) {
             miy += 10
-            tamy = window.innerHeight - 20
-            if (miy > tamy) {
-                tamy = miy
+            user1.tamy = window.innerHeight - 20
+            if (miy > user1.tamy) {
+                user1.tamy = miy
                 tod[i].ab = false
                 tod[i].ar = true
                 tod[i].mortal = true
@@ -1738,9 +1780,9 @@ function movervalas() {
         }
         if (tod[i].de == true) {
             mix += 10
-            tamx = window.innerWidth - 20
-            if (mix > tamx) {
-                mix = tamx
+            user1.tamx = window.innerWidth - 20
+            if (mix > user1.tamx) {
+                mix = user1.tamx
                 tod[i].de = false
                 tod[i].iz = true
                 tod[i].mortal = true
@@ -1771,81 +1813,48 @@ function movervalas() {
     var bx = cam.style.width
     bx = bx.split('px')
     bx = bx[0]
-    masenX = bx
+    user1.masenX = bx
 
     var by = cam.style.height
     by = by.split('px')
     by = by[0]
-    masenY = by
+    user1.masenY = by
 
-    masenX = parseInt(masenX)
-    masenY = parseInt(masenY)
-
-
-    masenX += posX
-    masenY += posY
+    user1.masenX = parseInt(user1.masenX)
+    user1.masenY = parseInt(user1.masenY)
 
 
+    user1.masenX += user1.posX
+    user1.masenY += user1.posY
 
-    erir(posX, posY, masenX, masenY)
+
+
+    erir(user1.posX, user1.posY, user1.masenX, user1.masenY)
 
     var cam = document.getElementById("bola2")
 
     var bx = cam.style.width
     bx = bx.split('px')
     bx = bx[0]
-    masenX = bx
+    user1.masenX = bx
 
     var by = cam.style.height
     by = by.split('px')
     by = by[0]
-    masenY = by
+    user1.masenY = by
 
-    masenX = parseInt(masenX)
-    masenY = parseInt(masenY)
+    user1.masenX = parseInt(user1.masenX)
+    user1.masenY = parseInt(user1.masenY)
 
 
-    masenX += posX2
-    masenY += posY2
+    user1.masenX += user2.posX2
+    user1.masenY += user2.posY2
 
-    erir2(posX2, posY2, masenX, masenY)
+    erir2(user2.posX2, user2.posY2, user1.masenX, user1.masenY)
 
     setTimeout("movervalas()", 10)
 }
 
-
-
-
-
-
-
-
-//jugador 2
-var tamx2 = 0
-var tamy2 = 0
-var mincero = 100
-
-
-
-var der2 = false
-var izq2 = false
-var arr2 = false
-var aba2 = false
-
-
-
-
-
-
-
-
-var posX2 = 0
-var posY2 = 0
-var tiempo2 = 50
-var bola2 = ""
-var masenX2 = 0
-var masenY2 = 0
-var incre2 = 15
 function mover2() {
 
     var cam = document.getElementById("bola2")
@@ -1853,75 +1862,72 @@ function mover2() {
     var bx = cam.style.width
     bx = bx.split('px')
     bx = bx[0]
-    masenX2 = bx
+    user2.masenX2 = bx
 
     var by = cam.style.height
     by = by.split('px')
     by = by[0]
-    masenY2 = by
+    user2.masenY2 = by
 
 
-    bola2 = cam
+    user2.bola2 = cam
 
-    if (der2 == true) {
+    if (user2.der2 == true) {
 
-        posX2 += incre2
+        user2.posX2 += user2.incre2
     }
-    if (izq2 == true) {
-        posX2 -= incre2
-    }
-
-    if (arr2 == true) {
-        posY2 += incre2
-    }
-    if (aba2 == true) {
-        posY2 -= incre2
+    if (user2.izq2 == true) {
+        user2.posX2 -= user2.incre2
     }
 
-    if (posY2 < mincero) {
-        posY2 = mincero
+    if (user2.arr2 == true) {
+        user2.posY2 += user2.incre2
+    }
+    if (user2.aba2 == true) {
+        user2.posY2 -= user2.incre2
     }
 
-    tamx2 = window.innerWidth
-    tamy2 = window.innerHeight
-
-    if (posY2 > tamy2 - masenY2) {
-        posY2 = tamy2 - masenY2
+    if (user2.posY2 < mincero) {
+        user2.posY2 = mincero
     }
 
-    if (posX2 > tamx2 - masenX2) {
-        posX2 = tamx2 - masenX2
+    user2.tamx2 = window.innerWidth
+    user2.tamy2 = window.innerHeight
+
+    if (user2.posY2 > user2.tamy2 - user2.masenY2) {
+        user2.posY2 = user2.tamy2 - user2.masenY2
     }
 
-    if (posX2 < 0) {
-        posX2 = 1
+    if (user2.posX2 > user2.tamx2 - user2.masenX2) {
+        user2.posX2 = user2.tamx2 - user2.masenX2
     }
 
-    cam.style.top = posY2 + "px"
-    cam.style.left = posX2 + "px"
+    if (user2.posX2 < 0) {
+        user2.posX2 = 1
+    }
 
-    masenX2 = parseInt(masenX2)
-    masenY2 = parseInt(masenY2)
+    cam.style.top = user2.posY2 + "px"
+    cam.style.left = user2.posX2 + "px"
 
-
-    masenX2 += posX2
-    masenY2 += posY2
-
-    tocarMiBomba2(posX2 - 1, posY2 - 1, masenX2 + 1, masenY2 + 1)
-    pisarmina2(posX2, posY2, masenX2, masenY2)
-    chocarConBomba2(posX2, posY2, masenX2, masenY2)
-    intersepta2(posX2, posY2, masenX2, masenY2)
+    user2.masenX2 = parseInt(user2.masenX2)
+    user2.masenY2 = parseInt(user2.masenY2)
 
 
-    setTimeout("mover2()", tiempo2)
+    user2.masenX2 += user2.posX2
+    user2.masenY2 += user2.posY2
+
+    tocarMiBomba2(user2.posX2 - 1, user2.posY2 - 1, user2.masenX2 + 1, user2.masenY2 + 1)
+    pisarmina2(user2.posX2, user2.posY2, user2.masenX2, user2.masenY2)
+    chocarConBomba2(user2.posX2, user2.posY2, user2.masenX2, user2.masenY2)
+    intersepta2(user2.posX2, user2.posY2, user2.masenX2, user2.masenY2)
+
+
+    setTimeout("mover2()", user2.tiempo2)
 
 
 
 
 }
-var numcapturas2 = 0
-var poscapturaX2 = window.innerWidth - 43
-var poscapturaY2 = 65
 
 function intersepta2(mix, miy, meX, meY) {
     var tod = document.getElementsByClassName("otros")
@@ -1969,8 +1975,8 @@ function intersepta2(mix, miy, meX, meY) {
         //intercepcion por encima
         if (meY >= fy && meY <= fty && ((fx <= meX && fx >= mix) || (ftx <= meX && ftx >= mix))) {
             yes = true
-            tamy = window.innerHeight
-            if (fy + 10 < tamy - 40) {
+            user1.tamy = window.innerHeight
+            if (fy + 10 < user1.tamy - 40) {
                 tod[i].style.top = fy + 10 + "px"
             }
 
@@ -1979,8 +1985,8 @@ function intersepta2(mix, miy, meX, meY) {
         //intercepcion por la izquierda
         if (meX >= fx && meX <= ftx && ((fy <= meY && fy >= miy) || (fty <= meY && fty >= miy))) {
             yes = true
-            tamx = window.innerWidth
-            if (fx + 10 < tamx - 40) {
+            user1.tamx = window.innerWidth
+            if (fx + 10 < user1.tamx - 40) {
                 tod[i].style.left = fx + 10 + "px"
             }
         }
@@ -1995,13 +2001,13 @@ function intersepta2(mix, miy, meX, meY) {
 
         if (yes == true) {
 
-            numcapturas2 += 1
+            user2.numcapturas2 += 1
             tod[i].style.left = poscapturaX2 + "px"
             tod[i].style.top = poscapturaY2 + "px"
-            tod[i].style.zIndex = numcapturas2
+            tod[i].style.zIndex = user2.numcapturas2
             tod[i].style.webkitTransition = "all 0.1s ease-in"
             var camcon = document.getElementById("contacapturas2")
-            camcon.innerHTML = numcapturas2
+            camcon.innerHTML = user2.numcapturas2
             contarvolas()
 
             /*var c1=Math.floor(Math.random() * (1 + 225 + 1)) + 1;
@@ -2023,51 +2029,41 @@ function intersepta2(mix, miy, meX, meY) {
     }
 }
 
-
-
-var armas2 = new Array("dbvfdjk", "warj/vala.png", "warj/muestramina2.png", "warj/muestrabomba2.png")
-
 function cambiararma2() {
-    arma2 += 1
-    if (arma2 > 3) {
-        arma2 = 1
+    user2.arma2 += 1
+    if (user2.arma2 > 3) {
+        user2.arma2 = 1
     }
     sonido("warj/cambiodearma.mp3")
-    imagen2(armas2[arma2])
+    imagen2(armas[user2.arma2])
 
     var cam = document.getElementById("numarma2")
-    if (arma2 == 1) {
-        cam.innerHTML = numvalas2
+    if (user2.arma2 == 1) {
+        cam.innerHTML = user2.numvalas2
     }
-    if (arma2 == 2) {
-        cam.innerHTML = numminas2
+    if (user2.arma2 == 2) {
+        cam.innerHTML = user2.numminas2
     }
-    if (arma2 == 3) {
-        cam.innerHTML = numbombas2
+    if (user2.arma2 == 3) {
+        cam.innerHTML = user2.numbombas2
     }
 }
 
-
-
-
-var arma2 = 1
 function atacar2() {
-    if (arma2 == 1) {
+    if (user2.arma2 == 1) {
         disparar2()
     }
 
-    if (arma2 == 2) {
+    if (user2.arma2 == 2) {
         sembrarMina2()
     }
 
-    if (arma2 == 3) {
+    if (user2.arma2 == 3) {
         dejarbomba2()
     }
 }
 
 //arma tipo bomba
-var numbombas2 = 5
-
 function dejarbomba2() {
 
     var cam = document.getElementById("numarma2")
@@ -2075,27 +2071,27 @@ function dejarbomba2() {
 
     var posvalida = true
 
-    if ((posX2 > window.innerWidth - 130) || (posY2 > window.innerHeight - 130) || (posY2 < 200)) {
+    if ((user2.posX2 > window.innerWidth - 130) || (user2.posY2 > window.innerHeight - 130) || (user2.posY2 < 200)) {
         posvalida = false
     }
 
 
-    if (numbombas2 > 0 && posvalida == true) {
-        numbombas2 -= 1
-        cam.innerHTML = numbombas2
+    if (user2.numbombas2 > 0 && posvalida == true) {
+        user2.numbombas2 -= 1
+        cam.innerHTML = user2.numbombas2
 
         var bomba = document.createElement("div")
         bomba.className = "bombas2"
-        bomba.style.left = posX2 + "px"
-        bomba.style.top = posY2 + "px"
+        bomba.style.left = user2.posX2 + "px"
+        bomba.style.top = user2.posY2 + "px"
         bomba.style.height = "30px"
         bomba.style.width = "30px"
         bomba.activa = true
         bomba.anima = 0
-        bomba.numero = numbombas2
-        bomba.id = "mibomba2" + numbombas2
-        bomba.pX = posX2
-        bomba.pY = posY2
+        bomba.numero = user2.numbombas2
+        bomba.id = "mibomba2" + user2.numbombas2
+        bomba.pX = user2.posX2
+        bomba.pY = user2.posY2
 
         bomba.estayada = false
         bomba.izq = false
@@ -2103,13 +2099,13 @@ function dejarbomba2() {
         bomba.aba = false
         bomba.arr = false
         bomba.activa = false
-        setTimeout("activarbomba(" + bomba.id + ")", tiempo2 + 1000)
+        setTimeout("activarbomba(" + bomba.id + ")", user2.tiempo2 + 1000)
 
         var conta = document.createElement("div")
         conta.className = "contabomba2"
         conta.innerHTML = "10"
-        conta.id = "contabom2" + numbombas2
-        conta.padre = "mibomba2" + numbombas2
+        conta.id = "contabom2" + user2.numbombas2
+        conta.padre = "mibomba2" + user2.numbombas2
         conta.valor = 10
         conta.activa = true
 
@@ -2120,49 +2116,44 @@ function dejarbomba2() {
 
     }
     else {
-        if (numbombas2 > 0) {
+        if (user2.numbombas2 > 0) {
             mensaje2("No puedes dejar bombas cerca de los bordos")
-            contaanim2 = 10
+            user2.contaanim2 = 10
             alertavalas2()
         }
         else {
-            contaanim2 = 10
+            user2.contaanim2 = 10
             alertavalas2()
         }
 
     }
 }
 
-
-
-
-var numminas2 = 10;
-//arma tipo mina
 function sembrarMina2() {
     var cam = document.getElementById("numarma2")
     var res = document.getElementById("recibe")
 
     var posvalida = true
 
-    if ((posX2 > window.innerWidth - 30) || (posY2 > window.innerHeight - 30)) {
+    if ((user2.posX2 > window.innerWidth - 30) || (user2.posY2 > window.innerHeight - 30)) {
         posvalida = false
     }
 
 
-    if (numminas2 > 0 && posvalida == true) {
-        numminas2 -= 1
-        cam.innerHTML = numminas2
+    if (user2.numminas2 > 0 && posvalida == true) {
+        user2.numminas2 -= 1
+        cam.innerHTML = user2.numminas2
 
         var mina = document.createElement("div")
         mina.className = "minas2"
 
-        var masX = bola2.style.width
+        var masX = user2.bola2.style.width
         masX = masX.split('px')
         masX = masX[0]
         masX = parseInt(masX)
         masX = masX / 2
 
-        var masY = bola2.style.height
+        var masY = user2.bola2.style.height
         masY = masY.split('px')
         masY = masY[0]
         masY = parseInt(masY)
@@ -2171,8 +2162,8 @@ function sembrarMina2() {
         masX = masX - 10
         masY = masY - 10
 
-        mina.style.left = posX2 + masX + "px"
-        mina.style.top = posY2 + masY + "px"
+        mina.style.left = user2.posX2 + masX + "px"
+        mina.style.top = user2.posY2 + masY + "px"
         mina.style.height = "20px"
         mina.style.width = "20px"
         mina.activa = true
@@ -2183,14 +2174,11 @@ function sembrarMina2() {
 
     }
     else {
-        contaanim2 = 10
+        user2.contaanim2 = 10
         alertavalas2()
     }
 }
 
-
-
-var numvalas2 = 100
 function disparar2() {
     var res = document.getElementById("recibe")
     var vala = document.createElement("div")
@@ -2199,13 +2187,13 @@ function disparar2() {
     var h = 5;
     var w = 5;
 
-    var masX = bola2.style.width
+    var masX = user2.bola2.style.width
     masX = masX.split('px')
     masX = masX[0]
     masX = parseInt(masX)
     masX = masX / 2
 
-    var masY = bola.style.height
+    var masY = user1.bola.style.height
     masY = masY.split('px')
     masY = masY[0]
     masY = parseInt(masY)
@@ -2214,34 +2202,34 @@ function disparar2() {
     var sumX = 0
     var sumY = 0
 
-    if (abadis2 == true) {
+    if (user2.abadis2 == true) {
         vala.ab = true
         vala.ar = false
         sumX = parseInt(masX)
         sumY = parseInt(masY * 2)
     }
-    if (arrdis2 == true) {
+    if (user2.arrdis2 == true) {
         vala.ab = false
         vala.ar = true
         sumX = parseInt(masX)
     }
 
-    if (derdis2 == true) {
+    if (user2.derdis2 == true) {
         vala.de = true
         vala.iz = false
-        sumY = masenY2
+        sumY = user2.masenY2
         sumX = parseInt(masX * 2)
         sumY = parseInt(masY)
     }
 
-    if (izqdis2 == true) {
+    if (user2.izqdis2 == true) {
         vala.de = false
         vala.iz = true
         sumY = parseInt(masY)
     }
 
-    var posvX = posX2 + sumX
-    var posvY = posY2 + sumY
+    var posvX = user2.posX2 + sumX
+    var posvY = user2.posY2 + sumY
 
     vala.x = posvX
     vala.y = posvY
@@ -2253,32 +2241,30 @@ function disparar2() {
     vala.style.left = posvX + "px"
     vala.creador = "jugador2"
 
-    numvalas2 -= 1
-    if (numvalas2 >= 0) {
+    user2.numvalas2 -= 1
+    if (user2.numvalas2 >= 0) {
         sonido("warj/disparo.mp3")
         res.appendChild(vala)
         var numv = document.getElementById("numarma2")
-        numv.innerHTML = numvalas2
+        numv.innerHTML = user2.numvalas2
     }
     else {
-        contaanim2 = 10
+        user2.contaanim2 = 10
         alertavalas2()
     }
 
 }
 
-
-var contaanim2 = 0
 function alertavalas2() {
     var cam = document.getElementById("numarma2")
-    if (contaanim2 % 2 == 0) {
+    if (user2.contaanim2 % 2 == 0) {
         cam.style.backgroundColor = "red"
     }
     else {
         cam.style.backgroundColor = "rgba(153,102,204,1)"
     }
-    contaanim2 -= 1
-    if (contaanim2 > 0) {
+    user2.contaanim2 -= 1
+    if (user2.contaanim2 > 0) {
         setTimeout("alertavalas2()", 100)
     }
     else {
@@ -2286,8 +2272,6 @@ function alertavalas2() {
     }
 }
 
-
-var vidas2 = 10
 function erir2(mix, miy, meX, meY) {
     var tod = document.getElementsByClassName("valas")
     fin = tod.length
@@ -2369,7 +2353,7 @@ function erir2(mix, miy, meX, meY) {
             }
         }
 
-        if (yes == true && bola2.inmune == false) {
+        if (yes == true && user2.bola2.inmune == false) {
             medieron2()
             tod[i].style.left = "-30px"
             tod[i].style.top = "-30px"
@@ -2385,7 +2369,6 @@ function erir2(mix, miy, meX, meY) {
     }
 
 }
-
 
 function pisarmina2(mix, miy, meX, meY) {
     var tod = document.getElementsByClassName("minas1")
@@ -2443,7 +2426,7 @@ function pisarmina2(mix, miy, meX, meY) {
             yes2 = true
         }
 
-        if (yes2 == true && bola2.inmune == false) {
+        if (yes2 == true && user2.bola2.inmune == false) {
             tod[i].style.left = "-40px"
             tod[i].style.top = "-40px"
             tod[i].activa = false
@@ -2457,7 +2440,6 @@ function pisarmina2(mix, miy, meX, meY) {
 
     }
 }
-
 
 function tocarMiBomba2(mix, miy, meX, meY) {
     var tod = document.getElementsByClassName("bombas2")
@@ -2524,12 +2506,12 @@ function tocarMiBomba2(mix, miy, meX, meY) {
         }
 
         if (yes == true) {
-            tod[i].der = der2
-            tod[i].izq = izq2
-            tod[i].aba = arr2
-            tod[i].arr = aba2
+            tod[i].der = user2.der2
+            tod[i].izq = user2.izq2
+            tod[i].aba = user2.arr2
+            tod[i].arr = user2.aba2
             tod[i].activa = false
-            setTimeout("activarbomba(" + tod[i].id + ")", tiempo2 + 1000)
+            setTimeout("activarbomba(" + tod[i].id + ")", user2.tiempo2 + 1000)
         }
 
 
@@ -2538,7 +2520,6 @@ function tocarMiBomba2(mix, miy, meX, meY) {
     }
 
 }
-
 
 function chocarConBomba2(mix, miy, meX, meY) {
     var tod = document.getElementsByClassName("llama1")
@@ -2596,7 +2577,7 @@ function chocarConBomba2(mix, miy, meX, meY) {
             yes2 = true
         }
 
-        if (yes2 == true && bola2.inmune == false && tod[i].creador == "jugador1") {
+        if (yes2 == true && user2.bola2.inmune == false && tod[i].creador == "jugador1") {
             sonido("warj/quemar2.mp3")
             medieron2()
             explocion(mix, miy)
@@ -2663,7 +2644,7 @@ function chocarConBomba2(mix, miy, meX, meY) {
             yes2 = true
         }
 
-        if (yes2 == true && bola2.inmune == false && tod[i].creador == "jugador1") {
+        if (yes2 == true && user2.bola2.inmune == false && tod[i].creador == "jugador1") {
             sonido("warj/quemar2.mp3")
             medieron2()
             explocion(mix, miy)
@@ -2676,18 +2657,16 @@ function chocarConBomba2(mix, miy, meX, meY) {
 
 }
 
-
-
 function medieron2() {
-    bola2.inmune = true
-    aninmun2 = 20
-    color2 = bola2.style.backgroundColor
+    user2.bola2.inmune = true
+    user2.aninmun2 = 20
+    user2.color2 = user2.bola2.style.backgroundColor
     inmunidad2()
-    vidas2 -= 1
-    if (vidas2 > 0) {
+    user2.vidas2 -= 1
+    if (user2.vidas2 > 0) {
         var convid = document.getElementById("contenvidas2")
         convid.innerHTML = ""
-        for (j = 1; j <= vidas2; j++) {
+        for (j = 1; j <= user2.vidas2; j++) {
             convid.innerHTML += "<div class='vidas2'></div>"
         }
     }
@@ -2696,30 +2675,26 @@ function medieron2() {
     }
 }
 
-var aninmun2 = 0
-var color2
 function inmunidad2() {
-    if (aninmun2 % 2 == 0) {
-        bola2.style.backgroundColor = "black"
-        bola2.style.color = "black"
+    if (user2.aninmun2 % 2 == 0) {
+        user2.bola2.style.backgroundColor = "black"
+        user2.bola2.style.color = "black"
     }
     else {
-        bola2.style.backgroundColor = color2
-        bola2.style.color = color2
+        user2.bola2.style.backgroundColor = user2.color2
+        user2.bola2.style.color = user2.color2
     }
 
-    aninmun2 -= 1
-    if (aninmun2 > 0) {
+    user2.aninmun2 -= 1
+    if (user2.aninmun2 > 0) {
         setTimeout("inmunidad2()", 100)
     }
     else {
-        bola2.inmune = false
-        bola2.style.backgroundColor = color2
-        bola2.style.color = color2
+        user2.bola2.inmune = false
+        user2.bola2.style.backgroundColor = user2.color2
+        user2.bola2.style.color = user2.color2
     }
 }
-
-
 
 function initGame(gameIdParam){
     userType=1;

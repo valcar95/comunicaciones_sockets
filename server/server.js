@@ -106,6 +106,30 @@ function userKeyUp(data,user){
     }
 }
 
+function updateScreen(data,user){
+    let game=games.find(x=>x.id==data.gameId);
+    if(game && (game.user1==user || game.user2==user)){
+        if(user==game.user1){
+            game.user2.sendUTF( JSON.stringify({ type:'update-screen', data: {html:data.html, userData:data.userData} }));
+        }
+        else{
+            game.user1.sendUTF( JSON.stringify({ type:'update-screen', data: {html:data.html, userData:data.userData}  }));
+        }
+    }
+}
+
+function notifyAttack(gameId, user){
+    let game=games.find(x=>x.id==gameId);
+    if(game && (game.user1==user || game.user2==user)){
+        if(user==game.user1){
+            game.user2.sendUTF( JSON.stringify({ type:'opponent-attack' }));
+        }
+        else{
+            game.user1.sendUTF( JSON.stringify({ type:'opponent-attack' }));
+        }
+    }
+}
+
 var clients = [ ];
 var games=[];
 var gameId=1;
@@ -142,6 +166,12 @@ wsServer.on('request', function(request) {
         }
         if(json.type=="notify-key-up"){
             userKeyUp(json.data,connection);
+        }
+        if(json.type=="update-screen"){
+            updateScreen(json.data,connection);
+        }
+        if(json.type=="notify-attack"){
+            notifyAttack(json.data.gameId,connection);
         }
     } catch (error) {
         
