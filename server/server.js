@@ -150,7 +150,10 @@ var server = http.createServer(function(request, response) {
  
 });
 
-server.listen(webSocketsServerPort, function() {});
+server.listen(webSocketsServerPort, function() {
+    console.log((new Date()) + " Server is listening on port "
+      + webSocketsServerPort);
+});
 
 var wsServer = new webSocketServer({httpServer: server});
 
