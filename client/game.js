@@ -7,7 +7,9 @@ var poscapturaX = 23;
 var poscapturaY = 65;
 var poscapturaX2 = window.innerWidth - 43;
 var poscapturaY2 = 65;
+var bombLifeTime=5;
 var armas = new Array("dbvfdjk", "warj/vala.png", "warj/muestramina1.png", "warj/muestrabomba1.png");
+var armas2 = new Array("dbvfdjk", "warj/vala.png", "warj/muestramina2.png", "warj/muestrabomba2.png");
 
 //jugador 1
 var user1={
@@ -39,7 +41,7 @@ var user1={
      arma : 1,
      numbombas : 5,
      numminas : 10,
-     numvalas : 100,
+     numvalas : 20,
      contaanim1 : 0,
 }
 
@@ -67,7 +69,7 @@ var user2={
      arma2 : 1,
      numbombas2 : 5,
      numminas2 : 10,
-     numvalas2 : 100,
+     numvalas2 : 20,
      contaanim2 : 0,
      vidas2 : 10,
      aninmun2 : 0,
@@ -1594,10 +1596,10 @@ function dejarbomba() {
 
         var conta = document.createElement("div")
         conta.className = "contabomba1"
-        conta.innerHTML = "10"
+        conta.innerHTML = bombLifeTime;
         conta.id = "contabom" + user1.numbombas
         conta.padre = "mibomba1" + user1.numbombas
-        conta.valor = 10
+        conta.valor = bombLifeTime;
         conta.activa = true
 
         bomba.appendChild(conta)
@@ -2056,7 +2058,7 @@ function cambiararma2() {
         user2.arma2 = 1
     }
     sonido("warj/cambiodearma.mp3")
-    imagen2(armas[user2.arma2])
+    imagen2(armas2[user2.arma2])
 
     var cam = document.getElementById("numarma2")
     if (user2.arma2 == 1) {
@@ -2124,10 +2126,10 @@ function dejarbomba2() {
 
         var conta = document.createElement("div")
         conta.className = "contabomba2"
-        conta.innerHTML = "10"
+        conta.innerHTML = bombLifeTime;
         conta.id = "contabom2" + user2.numbombas2
         conta.padre = "mibomba2" + user2.numbombas2
-        conta.valor = 10
+        conta.valor = bombLifeTime;
         conta.activa = true
 
         bomba.appendChild(conta)
