@@ -41,23 +41,20 @@ $(function () {
         if(json.type=="receive-game-data"){
           initGame2(json.data.gameId,json.data.gameData);
         }
-        if(json.type=="keypress-user1"){
-          //execKeyPress1(json.data.key);
-        }
-        if(json.type=="keypress-user2"){
-          //execKeyPress2(json.data.key);
-        }
-        if(json.type=="keyup-user1"){
-          //execKeyUp1(json.data.key);
-        }
-        if(json.type=="keyup-user2"){
-          //execKeyUp2(json.data.key);
-        }
+        
         if(json.type=="update-screen"){
-          updateHtml(json.data.html,json.data.userData);
+          updateHtml(json.data.userData);
         }
         if(json.type=="opponent-attack"){
           opponentAttack();
+        }
+        if(json.type=="user-hurted"){
+          if(json.data.type==1){
+            erirUser1(json.data.shotId);
+          }
+          else{
+            erirUser2(json.data.shotId);
+          }
         }
         console.log("mensaje recivido",json);
       } catch (e) {

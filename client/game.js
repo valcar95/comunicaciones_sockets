@@ -88,11 +88,6 @@ function gameKeyPress(elEvento) {
     else{
         execKeyPress2(val);
     }
-    let data = { type: "notify-key-press", data:{
-        gameId: gameId, 
-        keyValue:val
-    } };
-    connection.send(JSON.stringify(data));
     notifyUpdateScreen();
 }
 
@@ -216,11 +211,6 @@ function gameKeyUp(elEvento) {
     else{
         execKeyUp2(val);
     }
-    let data = { type: "notify-key-up", data:{
-        gameId: gameId, 
-        keyValue:val
-    } };
-    connection.send(JSON.stringify(data));
     notifyUpdateScreen();
 }
 
@@ -233,8 +223,7 @@ function notifyUpdateScreen(){
     connection.send(JSON.stringify(data));
 }
 
-function updateHtml(html,userData){
-    //document.getElementById("game").innerHTML=html;
+function updateHtml(userData){
     if(userType==1){
         user2=userData;
     }
@@ -1024,6 +1013,7 @@ function intersepta(mix, miy, meX, meY) {
 }
 
 function erir(mix, miy, meX, meY) {
+    setUser1Ball();
     var tod = document.getElementsByClassName("valas")
     fin = tod.length
     for (i = 0; i < fin; i++) {
@@ -1105,23 +1095,36 @@ function erir(mix, miy, meX, meY) {
         }
 
         if (yes == true && user1.bola.inmune == false) {
-            medieron()
-            tod[i].style.left = "-30px"
-            tod[i].style.top = "-30px"
-            tod[i].activa = false
-            tod[i].ab = false
-            tod[i].ar = false
-            tod[i].de = false
-            tod[i].iz = false
-            tod[i].mortal = false
-
+            erirUser1(tod[i].id);
+            let data = { type: "user-hurted", data:{
+                gameId: gameId, 
+                userType:1,
+                shotId:tod[i].id
+            } };
+            connection.send(JSON.stringify(data));
         }
 
     }
 
 }
 
+function erirUser1(shotId){
+    let shot=document.getElementById(shotId);
+    if(shot){
+        medieron()
+        shot.style.left = "-30px"
+        shot.style.top = "-30px"
+        shot.activa = false
+        shot.ab = false
+        shot.ar = false
+        shot.de = false
+        shot.iz = false
+        shot.mortal = false
+    }
+}
+
 function pisarmina(mix, miy, meX, meY) {
+    setUser1Ball();
     var tod = document.getElementsByClassName("minas2")
     fin = tod.length
     for (i = 0; i < fin; i++) {
@@ -1305,6 +1308,7 @@ function tocarMiBomba(mix, miy, meX, meY) {
 }
 
 function chocarConBomba(mix, miy, meX, meY) {
+    setUser1Ball();
     var tod = document.getElementsByClassName("llama1")
     fin = tod.length
     for (i = 0; i < fin; i++) {
@@ -1465,6 +1469,7 @@ function chocarConBomba(mix, miy, meX, meY) {
 }
 
 function medieron() {
+    setUser1Ball();
     user1.bola.inmune = true
     user1.aninmun = 20
     user1.color1 = user1.bola.style.backgroundColor
@@ -1482,7 +1487,20 @@ function medieron() {
     }
 }
 
+function setUser1Ball(){
+    if(!(user1.bola && user1.bola.style)){
+        user1.bola=document.getElementById("bola");
+    }
+}
+
+function setUser2Ball(){
+    if(!(user2.bola2 && user2.bola2.style)){
+        user2.bola2=document.getElementById("bola2");
+    }
+}
+
 function inmunidad1() {
+    setUser1Ball();
     if (user1.aninmun % 2 == 0) {
         user1.bola.style.backgroundColor = "black"
         user1.bola.style.color = "black"
@@ -1604,6 +1622,7 @@ function dejarbomba() {
 
 //arma tipo mina
 function sembrarMina() {
+    setUser1Ball();
     var cam = document.getElementById("numarma1")
     var res = document.getElementById("recibe")
 
@@ -1655,9 +1674,11 @@ function sembrarMina() {
 
 //arma tipo vals
 function disparar() {
+    setUser1Ball();
     var res = document.getElementById("recibe")
     var vala = document.createElement("div")
     vala.className = "valas"
+    vala.id="user-1-vala"+user1.numvalas;
 
     var h = 5;
     var w = 5;
@@ -2130,6 +2151,7 @@ function dejarbomba2() {
 }
 
 function sembrarMina2() {
+    setUser2Ball();
     var cam = document.getElementById("numarma2")
     var res = document.getElementById("recibe")
 
@@ -2180,9 +2202,12 @@ function sembrarMina2() {
 }
 
 function disparar2() {
+    setUser1Ball();
+    setUser2Ball();
     var res = document.getElementById("recibe")
     var vala = document.createElement("div")
-    vala.className = "valas"
+    vala.className = "valas";
+    vala.id="user-2-vala"+user2.numvalas2;
 
     var h = 5;
     var w = 5;
@@ -2273,6 +2298,7 @@ function alertavalas2() {
 }
 
 function erir2(mix, miy, meX, meY) {
+    setUser2Ball();
     var tod = document.getElementsByClassName("valas")
     fin = tod.length
     for (i = 0; i < fin; i++) {
@@ -2354,23 +2380,36 @@ function erir2(mix, miy, meX, meY) {
         }
 
         if (yes == true && user2.bola2.inmune == false) {
-            medieron2()
-            tod[i].style.left = "-30px"
-            tod[i].style.top = "-30px"
-            tod[i].activa = false
-            tod[i].ab = false
-            tod[i].ar = false
-            tod[i].de = false
-            tod[i].iz = false
-            tod[i].mortal = false
-
+            erirUser2(tod[i].id);
+            let data = { type: "user-hurted", data:{
+                gameId: gameId, 
+                userType:2,
+                shotId:tod[i].id
+            } };
+            connection.send(JSON.stringify(data));
         }
 
     }
 
 }
 
+function erirUser2(shotId){
+    let shot=document.getElementById(shotId);
+    if(shot){
+        medieron2()
+        shot.style.left = "-30px"
+        shot.style.top = "-30px"
+        shot.activa = false
+        shot.ab = false
+        shot.ar = false
+        shot.de = false
+        shot.iz = false
+        shot.mortal = false
+    }
+}
+
 function pisarmina2(mix, miy, meX, meY) {
+    setUser2Ball();
     var tod = document.getElementsByClassName("minas1")
     fin = tod.length
     for (i = 0; i < fin; i++) {
@@ -2522,6 +2561,7 @@ function tocarMiBomba2(mix, miy, meX, meY) {
 }
 
 function chocarConBomba2(mix, miy, meX, meY) {
+    setUser2Ball();
     var tod = document.getElementsByClassName("llama1")
     fin = tod.length
     for (i = 0; i < fin; i++) {
@@ -2658,6 +2698,7 @@ function chocarConBomba2(mix, miy, meX, meY) {
 }
 
 function medieron2() {
+    setUser2Ball();
     user2.bola2.inmune = true
     user2.aninmun2 = 20
     user2.color2 = user2.bola2.style.backgroundColor
@@ -2676,6 +2717,7 @@ function medieron2() {
 }
 
 function inmunidad2() {
+    setUser2Ball();
     if (user2.aninmun2 % 2 == 0) {
         user2.bola2.style.backgroundColor = "black"
         user2.bola2.style.color = "black"
