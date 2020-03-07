@@ -1,4 +1,6 @@
 var connection;
+var serverName="3.224.111.223";
+var serverPort="1337";
 
 function drawGames(gamesArray){
     let html="";
@@ -20,7 +22,7 @@ $(function () {
       return;
     }
     // open connection
-    connection = new WebSocket('ws://127.0.0.1:1337');
+    connection = new WebSocket(`ws://${serverName}:${serverPort}`);
     connection.onopen = function () {
       // first we want users to enter their names
       console.log("conexión establecida");
