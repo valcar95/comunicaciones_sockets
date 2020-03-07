@@ -8,6 +8,8 @@ var poscapturaY = 65;
 var poscapturaX2 = window.innerWidth - 43;
 var poscapturaY2 = 65;
 var bombLifeTime=5;
+var maxNumShots=100;
+var shotsVelocity=20;
 var armas = new Array("dbvfdjk", "warj/vala.png", "warj/muestramina1.png", "warj/muestrabomba1.png");
 var armas2 = new Array("dbvfdjk", "warj/vala.png", "warj/muestramina2.png", "warj/muestrabomba2.png");
 
@@ -41,7 +43,7 @@ var user1={
      arma : 1,
      numbombas : 5,
      numminas : 10,
-     numvalas : 20,
+     numvalas : maxNumShots,
      contaanim1 : 0,
 }
 
@@ -69,7 +71,7 @@ var user2={
      arma2 : 1,
      numbombas2 : 5,
      numminas2 : 10,
-     numvalas2 : 20,
+     numvalas2 : maxNumShots,
      contaanim2 : 0,
      vidas2 : 10,
      aninmun2 : 0,
@@ -82,6 +84,7 @@ var user2={
 
 
 function gameKeyPress(elEvento) {
+    
     var evento = window.event || elEvento;
     var val = evento.keyCode;
     if(userType==1){
@@ -113,30 +116,22 @@ function execKeyPress1(val){
         }
     }
 
-    if (val == 32) {
-        atacar();
-        notificarAtaque();
-    }
-
     if (val == 119) {
         user1.aba = true
-        user1.arrdis = true
-        user1.abadis = false
     }
     if (val == 97) {
         user1.izq = true
-        user1.arrdis = false
-        user1.izqdis = true
     }
     if (val == 115) {
         user1.arr = true
-        user1.arrdis = false
-        user1.abadis = true
     }
     if (val == 100) {
         user1.der = true
-        user1.arrdis = true
-        user1.izqdis = false
+    }
+
+    if (val == 32) {
+        atacar();
+        notificarAtaque();
     }
 }
 
@@ -176,30 +171,23 @@ function execKeyPress2(val){
         }
     }
     
-    if (val == 32) {
-        atacar2();
-        notificarAtaque();
-    }
 
     if (val == 119) {
         user2.aba2 = true
-        user2.arrdis2 = true
-        user2.abadis2 = false
     }
     if (val == 97) {
         user2.izq2 = true
-        user2.derdis2 = false
-        user2.izqdis2 = true
     }
     if (val == 115) {
         user2.arr2 = true
-        user2.arrdis2 = false
-        user2.abadis2 = true
     }
     if (val == 100) {
         user2.der2 = true
-        user2.derdis2 = true
-        user2.izqdis2 = false
+    }
+
+    if (val == 32) {
+        atacar2();
+        notificarAtaque();
     }
 }
 
@@ -238,32 +226,15 @@ function execKeyUp2(val){
 
     if (val == 87) {
         user2.aba2 = false
-        user2.arrdis2 = true
-        user2.derdis2 = false
-        user2.izqdis2 = false
-        user2.abadis2 = false
-
     }
     if (val == 65) {
         user2.izq2 = false
-        user2.arrdis2 = false
-        user2.derdis2 = false
-        user2.izqdis2 = true
-        user2.abadis2 = false
     }
     if (val == 83) {
         user2.arr2 = false
-        user2.arrdis2 = false
-        user2.derdis2 = false
-        user2.izqdis2 = false
-        user2.abadis2 = true
     }
     if (val == 68) {
         user2.der2 = false
-        user2.arrdis2 = false
-        user2.derdis2 = true
-        user2.izqdis2 = false
-        user2.abadis2 = false
     }
 
     if (val == 16) {
@@ -277,32 +248,16 @@ function execKeyUp1(val){
     }
     if (val == 87) {
         user1.aba = false
-        user1.arrdis = true
-        user1.arrdis = false
-        user1.izqdis = false
-        user1.abadis = false
     }
     if (val == 65) {
         user1.izq = false
-        user1.arrdis = false
-        user1.arrdis = false
-        user1.izqdis = true
-        user1.abadis = false
     }
     if (val == 83) {
         user1.arr = false
-        user1.arrdis = false
-        user1.arrdis = false
-        user1.izqdis = false
-        user1.abadis = true
 
     }
     if (val == 68) {
         user1.der = false
-        user1.arrdis = false
-        user1.arrdis = true
-        user1.izqdis = false
-        user1.abadis = false
     }
 }
 
@@ -1699,21 +1654,19 @@ function disparar() {
 
     var sumX = 0
     var sumY = 0
-    if (user1.abadis == true) {
-        vala.ab = true
-        vala.ar = false
-
+    if (user1.aba == true) {
+        vala.ab = false
+        vala.ar = true
         sumX = parseInt(masX)
         sumY = parseInt(masY * 2)
     }
-    if (user1.arrdis == true) {
-        vala.ab = false
-        vala.ar = true
-
+    if (user1.arr == true) {
+        vala.ab = true
+        vala.ar = false
         sumX = parseInt(masX)
     }
 
-    if (user1.arrdis == true) {
+    if (user1.der == true) {
         vala.de = true
         vala.iz = false
 
@@ -1721,10 +1674,9 @@ function disparar() {
         sumY = parseInt(masY)
     }
 
-    if (user1.izqdis == true) {
+    if (user1.izq == true) {
         vala.de = false
         vala.iz = true
-
         sumY = parseInt(masY)
     }
 
@@ -1875,7 +1827,7 @@ function movervalas() {
 
     erir2(user2.posX2, user2.posY2, user1.masenX, user1.masenY)
 
-    setTimeout("movervalas()", 10)
+    setTimeout("movervalas()", shotsVelocity)
 }
 
 function mover2() {
@@ -2229,19 +2181,19 @@ function disparar2() {
     var sumX = 0
     var sumY = 0
 
-    if (user2.abadis2 == true) {
-        vala.ab = true
-        vala.ar = false
-        sumX = parseInt(masX)
-        sumY = parseInt(masY * 2)
-    }
-    if (user2.arrdis2 == true) {
+    if (user2.aba2 == true) {
         vala.ab = false
         vala.ar = true
         sumX = parseInt(masX)
+        sumY = parseInt(masY * 2)
+    }
+    if (user2.arr2 == true) {
+        vala.ab = true
+        vala.ar = false
+        sumX = parseInt(masX)
     }
 
-    if (user2.derdis2 == true) {
+    if (user2.der2 == true) {
         vala.de = true
         vala.iz = false
         sumY = user2.masenY2
@@ -2249,7 +2201,7 @@ function disparar2() {
         sumY = parseInt(masY)
     }
 
-    if (user2.izqdis2 == true) {
+    if (user2.izq2 == true) {
         vala.de = false
         vala.iz = true
         sumY = parseInt(masY)
