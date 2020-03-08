@@ -2714,8 +2714,8 @@ function initCommon(gameIdParam){
     crecerllama()
     quitarLlama()
 
-    w = window.innerWidth - 10
-    h = window.innerHeight - 10
+    w = window.innerWidth
+    h = window.innerHeight
     $("#game").css({width:w + "px", height:h + "px"});
 }
 

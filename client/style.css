@@ -1,3 +1,8 @@
+html,body{
+	margin: 0px;
+	padding: 0px;
+}
+
 .valas{
 	background-color:rgba(255,255,0,1);
 	box-shadow:0px 0px 5px #FFFFCC;
@@ -238,4 +243,6 @@ background-image:url(warj/mina1.png);
     display: none;
     border:5px solid rgba(204,204,204,1);
 	background-color:rgba(0,0,0,1);
+	padding: 0px;
+	margin: 0px;
 }

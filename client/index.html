@@ -3,7 +3,16 @@
 
 <head>
     <meta charset="utf-8" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+     <!-- Materialize css y jquery -->
+     <link rel="stylesheet" href="libreriasExternas/materialize.min.css">
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <script src="libreriasExternas/jquery.min.js"></script>
+     <script src="libreriasExternas/materialize.min.js"></script>
+
+    <!-- Estilos de la aplicación-->
+    <link rel="icon" href="img/logoUdea.png" type="image/gif" sizes="16x16">
+    <link href="./css/index.css" rel="stylesheet">
+
     <script src="client.js"></script>
     <script src="game.js"></script>
     <script>
@@ -21,13 +30,76 @@
         window.onload = function () {
           document.getElementById("numarma1").innerHTML=maxNumShots;
           document.getElementById("numarma2").innerHTML=maxNumShots;
+          $('.sidenav').sidenav();
+          $('.tabs').tabs();
+          $('.tooltipped').tooltip();
+          $("#test-swipe-1,#p5").css("min-height", (window.innerHeight - 200) + "px")
         }
     </script>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body id="mibod">
+
+
+
+    
+
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <nav>
+                <div class="nav-wrapper green padding-nav">
+                    <a href="#!" class="brand-logo " style="font-size: 14">Comunicaciones ll</a>
+                </div>
+            </nav>
+            <br>
+            <div class="align-center">
+                <img src="img/logoUdea.png">
+            </div>
+        </li>
+
+        <li class="copy-right">Victor Cardona Vera © 2020</li>
+    </ul>
+
     <div id="inicio">
+        <nav>
+            <div class="nav-wrapper green">
+                <div id="title-without-afd">
+                    <a href="#!" data-target="slide-out" class="sidenav-trigger brand-logo display-always">
+                        <i class="material-icons">menu</i>
+                        <span id='main-title'>Web Sockets</span>
+                    </a>
+    
+                </div>
+    
+                <div id="title-with-afd">
+                    <a href="#!" onclick="backToEXInput()" class=" margin-left brand-logo display-always">
+                        <i class="material-icons">arrow_back</i>
+                        AFD de (
+                        <span id='ex-title'></span>)
+                    </a>
+                </div>
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <a target="parent" href="./docs/documentacion.pdf" class="tooltipped" data-position="bottom" data-tooltip="Documentación">
+                            <i class="material-icons ">library_books</i>
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a target="parent" href="./docs/practica1.pdf" class="tooltipped" data-position="bottom" data-tooltip="Práctica 1">
+                            <i class="material-icons">filter_1</i>
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a target="parent" href="./docs/practica2.pdf" class="tooltipped" data-position="bottom" data-tooltip="Práctica 2">
+                            <i class="material-icons">filter_2</i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         <button onclick="createGame()">Iniciar juego</button>
         <table>
 

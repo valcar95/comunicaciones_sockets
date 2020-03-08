@@ -1,0 +1,132 @@
+.copy-right{
+    position: absolute;
+    top: 85%;
+    text-align: center;
+    width: 100%;
+    padding-right: 20px;
+}
+
+.align-center{
+    text-align: center;
+}
+
+.display-always{
+    display: initial !important;
+}
+
+.nav-wrapper.green .brand-logo{
+    font-size: 16px !important;
+}
+
+.padding-nav{
+    padding-left: 65px;
+}
+
+.content-input{
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-top: 200px;
+}
+
+#txtExpresion{
+    font-size: 24px;
+}
+
+.btn-process{
+    margin-top: 25px;
+}
+
+.nav-wrapper.green #title-with-afd{
+    display: none;
+}
+
+.nodoArbol {
+    font-size: 24px;
+    background-color: #fb8c00;
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+}
+
+.nodoArbol .node-title {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    text-align: center;
+    position: relative;
+    top: -5px;
+    color:#fff;
+}
+
+
+.margin-left{
+    margin-left: 8px;
+}
+
+#results{
+    display: none;
+}
+
+#results .tabs .tab a:hover, .tabs .tab a{
+    color:#fff !important;
+}
+
+#results .tabs .indicator{
+ background-color: #fff !important;
+ height: 3px;
+}
+
+#results .tabs .tab a:focus, .tabs .tab a.active{
+background-color: rgba(255,255,255,0.2) !important;
+}
+
+.tbl-afd td{
+    text-align: center;
+   
+}
+
+.tbl-afd tr{
+    border-bottom: 0px solid;
+}
+
+.tbl-afd .td-transicion{
+    border:1px solid #111;
+}
+
+.tbl-afd .celda-pequena{
+    width:30px; 
+    max-width:30px
+}
+
+.contenedor-afd{
+    margin-left: 3% !important; 
+    margin-right: 3% !important;
+}
+
+#errror-hilera{
+    color:#F8103F;
+}
+
+.oculto{
+    display: none;
+}
+
+.resultado-evaluacion-hilera{
+    padding: 10px;
+    color:#fff;
+}
+
+#hilera-invalida{
+    background-color:#E53935 !important
+}
+
+#hilera-valida{
+    background-color:#4CAF50 !important
+}
+
+.contenedor-descarga{
+    height: 500px;
+}
+
+.full-width{
+    width: 100%;
+}
