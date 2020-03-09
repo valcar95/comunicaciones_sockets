@@ -1,11 +1,17 @@
 var connection;
-var serverName="3.224.111.223";
+var serverName="127.0.0.1";
+//var serverName="3.224.111.223";
 var serverPort="1337";
 
 function drawGames(gamesArray){
     let html="";
     gamesArray.forEach(x=>{
-        html+=`<tr><td>Juego ${x}</td><td><button onclick="joinToGame(${x})">Unirmer</button></td></tr>`;
+        html+=`<tr><td>Juego ${x}</td><td style="text-align:right">
+        <a class="waves-effect waves-light btn-small orange darken-1" onclick="joinToGame(${x})">
+          <i class="material-icons left">add</i> 
+          Unirmer
+        </a>
+        </td></tr>`;
     });
     $("#games").html(html);
 }
@@ -57,6 +63,9 @@ $(function () {
           else{
             erirUser2(json.data.shotId);
           }
+        }
+        if(json.type=="game-created"){
+          gameCreated(json.gameId);
         }
         console.log("mensaje recivido",json);
       } catch (e) {

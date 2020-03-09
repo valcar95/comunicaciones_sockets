@@ -69,17 +69,13 @@
                         <i class="material-icons">menu</i>
                         <span id='main-title'>Web Sockets</span>
                     </a>
-    
-                </div>
-    
-                <div id="title-with-afd">
-                    <a href="#!" onclick="backToEXInput()" class=" margin-left brand-logo display-always">
-                        <i class="material-icons">arrow_back</i>
-                        AFD de (
-                        <span id='ex-title'></span>)
-                    </a>
                 </div>
                 <ul class="right hide-on-med-and-down">
+                    <li style="display: none;" id="navInstructions">
+                        <a target="parent" href="./docs/documentacion.pdf" class="tooltipped" data-position="bottom" data-tooltip="Intrucciones">
+                            <i class="material-icons ">info</i>
+                        </a>
+                    </li>
                     <li>
                         <a target="parent" href="./docs/documentacion.pdf" class="tooltipped" data-position="bottom" data-tooltip="Documentación">
                             <i class="material-icons ">library_books</i>
@@ -87,31 +83,43 @@
                     </li>
     
                     <li>
-                        <a target="parent" href="./docs/practica1.pdf" class="tooltipped" data-position="bottom" data-tooltip="Práctica 1">
+                        <a target="parent" href="./docs/practica.pdf" class="tooltipped" data-position="bottom" data-tooltip="Práctica 1">
                             <i class="material-icons">filter_1</i>
-                        </a>
-                    </li>
-    
-                    <li>
-                        <a target="parent" href="./docs/practica2.pdf" class="tooltipped" data-position="bottom" data-tooltip="Práctica 2">
-                            <i class="material-icons">filter_2</i>
                         </a>
                     </li>
                 </ul>
             </div>
         </nav>
-        <button onclick="createGame()">Iniciar juego</button>
-        <table>
+        <div class="actions-container green">
+            <div>
+                <h2 class="game-title ">Ball War</h2>
+            </div>
+            <div class="actions-buttons" id="gameButtons">
+                <a class="waves-effect waves-light btn-large orange darken-1 game-actions">
+                    <i class="material-icons left">info</i>
+                    Instrucciones
+                </a>
+                <a class="waves-effect waves-light btn-large orange darken-1 game-actions" onclick="createGame()">
+                    <i class="material-icons left">gamepad</i>
+                    Iniciar juego
+                </a>
+            </div>
+            <div id="gameCreatedContainer" style="color: #fff;"></div>
+        </div>
 
-            <head>
-                <tr>
-                    <th colspan="2">Juegos disponibles</th>
-                </tr>
-            </head>
-            <tbody id="games">
+        <div class="avalaible-games">
+            <div style="margin-top: 5px; margin-bottom: 5px;"><b>Juegos disponibles</b></div>
+        </div>
 
-            </tbody>
-        </table>
+        <div class="avalaible-games games-scroll">
+            
+            <table>
+                <tbody id="games">
+                   
+                </tbody>
+            </table>
+        </div>
+       
     </div>
     <div id="game">
         <div id="cabesa">
@@ -121,7 +129,7 @@
                 <div style="border-bottom:1px solid rgba(0,204,0,1); width:130px; height:50px;">
 
                     <div id="arma1">
-                        <div id="numarma1">100</div>
+                        <div id="numarma1">20</div>
                     </div>
 
                     <div id="contenvidas1" style="width:130px">
@@ -155,7 +163,7 @@
                 <div style="border-bottom:1px solid rgba(153,51,153,1); width:130px; height:50px;">
 
                     <div id="arma2">
-                        <div id="numarma2">100</div>
+                        <div id="numarma2">20</div>
                     </div>
 
                     <div id="contenvidas2" style="width:130px">

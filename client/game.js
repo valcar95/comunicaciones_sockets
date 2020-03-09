@@ -237,13 +237,13 @@ function execKeyUp2(val){
         user2.der2 = false
     }
 
-    if (val == 16) {
+    if (val == 77) {
         cambiararma2()
     }
 }
 
 function execKeyUp1(val){
-    if (val == 16) {
+    if (val == 77) {
         cambiararma()
     }
     if (val == 87) {
@@ -2724,6 +2724,13 @@ function initGame2(gameIdParam,data){
     createUsers();
     drawBalls(data.balls);
     initCommon(gameIdParam);
+}
+
+function gameCreated(gameId){
+    gameId=gameId;
+    $("#gameButtons").hide();
+    $("#navInstructions").show();
+    $("#gameCreatedContainer").html(`Esperado oponente para el juego ${gameId}`)
 }
 
 

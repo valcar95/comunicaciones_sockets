@@ -29,8 +29,8 @@ function initGame(user){
     }
     if(!games.some(x=>x.user1==user)){
         games.push(newGame);
+        user.sendUTF( JSON.stringify({ type:'game-created', data: true, gameId:gameId }));
         gameId++;
-        user.sendUTF( JSON.stringify({ type:'game-created', data: true }));
     }
     notifyAllGames(user);
 }
