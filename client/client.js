@@ -1,6 +1,6 @@
 var connection;
-var serverName="127.0.0.1";
-//var serverName="3.224.111.223";
+//var serverName="127.0.0.1";
+var serverName="34.230.228.226";
 var serverPort="1337";
 
 function drawGames(gamesArray){
