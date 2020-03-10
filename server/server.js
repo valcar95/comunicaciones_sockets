@@ -1,5 +1,5 @@
 "use strict";
-process.title = 'warjs udea';
+process.title = 'ballwars udea';
 var webSocketsServerPort = 1337;
 var webSocketServer = require('websocket').server;
 var http = require('http');

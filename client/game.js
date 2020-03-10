@@ -10,8 +10,8 @@ var poscapturaY2 = 65;
 var bombLifeTime=5;
 var maxNumShots=100;
 var shotsVelocity=20;
-var armas = new Array("dbvfdjk", "warj/vala.png", "warj/muestramina1.png", "warj/muestrabomba1.png");
-var armas2 = new Array("dbvfdjk", "warj/vala.png", "warj/muestramina2.png", "warj/muestrabomba2.png");
+var armas = new Array("dbvfdjk", "ballwar/vala.png", "ballwar/muestramina1.png", "ballwar/muestrabomba1.png");
+var armas2 = new Array("dbvfdjk", "ballwar/vala.png", "ballwar/muestramina2.png", "ballwar/muestrabomba2.png");
 
 //jugador 1
 var user1={
@@ -461,11 +461,11 @@ function conteodeBombas() {
 
 function estayarBomba(padre, jugador) {
     var mibom = document.getElementById(padre)
-    mibom.style.backgroundImage = "url(warj/estallido.png)"
+    mibom.style.backgroundImage = "url(ballwar/estallido.png)"
     mibom.style.width = "60px"
     mibom.style.height = "60px"
     mibom.estayada = true
-    sonido("warj/pisamina.mp3")
+    sonido("ballwar/pisamina.mp3")
 
     var dX = mibom.style.left
     dX = dX.split('px')
@@ -724,7 +724,7 @@ function moverbombas() {
 //imagen explocion 
 function explocion(enX, enY) {
     var ima = document.getElementById("explocionmina")
-    ima.src = "warj/explocion.gif"
+    ima.src = "ballwar/explocion.gif"
     ima.style.left = enX + "px"
     ima.style.top = enY + "px"
 }
@@ -1141,7 +1141,7 @@ function pisarmina(mix, miy, meX, meY) {
             tod[i].style.left = "-40px"
             tod[i].style.top = "-40px"
             tod[i].activa = false
-            sonido("warj/pisamina.mp3")
+            sonido("ballwar/pisamina.mp3")
             medieron()
             explocion(mix, miy)
 
@@ -1322,7 +1322,7 @@ function chocarConBomba(mix, miy, meX, meY) {
         }
 
         if (yes2 == true && user1.bola.inmune == false && tod[i].creador == "jugador2") {
-            sonido("warj/quemar2.mp3")
+            sonido("ballwar/quemar2.mp3")
             medieron()
             explocion(mix, miy)
 
@@ -1401,7 +1401,7 @@ function chocarConBomba(mix, miy, meX, meY) {
         }
 
         if (yes2 == true && user1.bola.inmune == false && tod[i].creador == "jugador2") {
-            sonido("warj/quemar2.mp3")
+            sonido("ballwar/quemar2.mp3")
             medieron()
             explocion(mix, miy)
 
@@ -1483,7 +1483,7 @@ function cambiararma() {
     if (user1.arma > 3) {
         user1.arma = 1
     }
-    sonido("warj/cambiodearma.mp3")
+    sonido("ballwar/cambiodearma.mp3")
     imagen1(armas[user1.arma])
 
     var cam = document.getElementById("numarma1")
@@ -1697,7 +1697,7 @@ function disparar() {
 
     user1.numvalas -= 1
     if (user1.numvalas >= 0) {
-        sonido("warj/disparo.mp3")
+        sonido("ballwar/disparo.mp3")
         res.appendChild(vala)
         var numv = document.getElementById("numarma1")
         numv.innerHTML = user1.numvalas
@@ -2009,7 +2009,7 @@ function cambiararma2() {
     if (user2.arma2 > 3) {
         user2.arma2 = 1
     }
-    sonido("warj/cambiodearma.mp3")
+    sonido("ballwar/cambiodearma.mp3")
     imagen2(armas2[user2.arma2])
 
     var cam = document.getElementById("numarma2")
@@ -2222,7 +2222,7 @@ function disparar2() {
 
     user2.numvalas2 -= 1
     if (user2.numvalas2 >= 0) {
-        sonido("warj/disparo.mp3")
+        sonido("ballwar/disparo.mp3")
         res.appendChild(vala)
         var numv = document.getElementById("numarma2")
         numv.innerHTML = user2.numvalas2
@@ -2423,7 +2423,7 @@ function pisarmina2(mix, miy, meX, meY) {
             tod[i].style.left = "-40px"
             tod[i].style.top = "-40px"
             tod[i].activa = false
-            sonido("warj/pisamina.mp3")
+            sonido("ballwar/pisamina.mp3")
             medieron2()
             explocion(mix, miy)
         }
@@ -2572,7 +2572,7 @@ function chocarConBomba2(mix, miy, meX, meY) {
         }
 
         if (yes2 == true && user2.bola2.inmune == false && tod[i].creador == "jugador1") {
-            sonido("warj/quemar2.mp3")
+            sonido("ballwar/quemar2.mp3")
             medieron2()
             explocion(mix, miy)
         }
@@ -2639,7 +2639,7 @@ function chocarConBomba2(mix, miy, meX, meY) {
         }
 
         if (yes2 == true && user2.bola2.inmune == false && tod[i].creador == "jugador1") {
-            sonido("warj/quemar2.mp3")
+            sonido("ballwar/quemar2.mp3")
             medieron2()
             explocion(mix, miy)
         }
