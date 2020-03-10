@@ -9,7 +9,7 @@ function drawGames(gamesArray){
         html+=`<tr><td>Juego ${x}</td><td style="text-align:right">
         <a class="waves-effect waves-light btn-small orange darken-1" onclick="joinToGame(${x})">
           <i class="material-icons left">add</i> 
-          Unirmer
+          Unirme
         </a>
         </td></tr>`;
     });
