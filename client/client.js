@@ -67,6 +67,10 @@ $(function () {
         if(json.type=="game-created"){
           gameCreated(json.gameId);
         }
+        if(json.type=="game-left"){
+          alert("Tu oponente abandonó la partida");
+          location.href=location.href;
+        }
         console.log("mensaje recivido",json);
       } catch (e) {
         console.log('Invalid JSON: ', message.data,e);
