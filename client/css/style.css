@@ -13,7 +13,7 @@ html,body{
 
 #bola{
 	color:rgba(0,255,0,1);
-	background-image:url(ballwar/fondobol1.png);
+	background-image:url(../../ballwar/fondobol1.png);
 	background-size:100% 100%;
 	box-shadow:0px 0px 40px;
 	border-radius:30px;
@@ -25,7 +25,7 @@ html,body{
 
 #bola2{
 	color:rgba(153,51,153,1);
-	background-image:url(ballwar/fondobol2.png);
+	background-image:url(../../ballwar/fondobol2.png);
 	background-size:100% 100%;
 	box-shadow:0px 0px 40px;
 	border-radius:30px;
@@ -61,7 +61,7 @@ html,body{
 	border-right:1px solid rgba(0,204,0,1);
 	float:left;
 	background-size:100% 100%;
-	background-image:url(ballwar/vala.png);
+	background-image:url(../ballwar/vala.png);
 	
 }
 
@@ -92,7 +92,7 @@ html,body{
 .vidas1{
 	width:15px;
 	height:15px;
-	background-image:url(ballwar/corazonverde.png);
+	background-image:url(../ballwar/corazonverde.png);
 	background-size:100% 100%;
 	float:left;	
 }
@@ -106,10 +106,10 @@ html,body{
 	z-index:10;
 }
 .bombas1{
-	background-image:url(ballwar/bomba1.png);	
+	background-image:url(../ballwar/bomba1.png);	
 }
 .bombas2{
-	background-image:url(ballwar/bomba2.png);	
+	background-image:url(../ballwar/bomba2.png);	
 }
 
 .contabomba1,.contabomba2{
@@ -134,11 +134,11 @@ html,body{
 	background-size:100% 100%;	
 }
 .minas1{
-background-image:url(ballwar/mina1.png);	
+background-image:url(../ballwar/mina1.png);	
 }
 
 .minas2{
-	background-image:url(ballwar/mina2.png);
+	background-image:url(../ballwar/mina2.png);
 }
 
 
@@ -156,7 +156,7 @@ background-image:url(ballwar/mina1.png);
 	background-size:100% 100%;
 	float:right;
 	background-size:100% 100%;
-	background-image:url(ballwar/vala.png);
+	background-image:url(../ballwar/vala.png);
 	
 }
 
@@ -187,7 +187,7 @@ background-image:url(ballwar/mina1.png);
 .vidas2{
 	width:15px;
 	height:15px;
-	background-image:url(ballwar/corazonrojo.png);
+	background-image:url(../ballwar/corazonrojo.png);
 	background-size:100% 100%;
 	float:right;	
 }
@@ -228,13 +228,13 @@ background-image:url(ballwar/mina1.png);
 
 .llama1{
 	border-radius:30px;
-	background-image:url(ballwar/explovertical.png);
+	background-image:url(../ballwar/explovertical.png);
 	background-size:100% 100%;
 	position:absolute;
 }
 .llama2{
 	border-radius:30px;
-	background-image:url(ballwar/exploorizontal.png);
+	background-image:url(../ballwar/exploorizontal.png);
 	background-size:100% 100%;
 	position:absolute;
 }
